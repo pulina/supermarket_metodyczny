@@ -1,0 +1,16 @@
+{% extends "base/index.html" %}
+{% block title %}Supermarket Metodyczny{% endblock %}
+{% load staticfiles %}
+{% block content %}
+        <div class="page-header">
+          <h1>Kontakt...</h1>
+        </div>
+<div style="clear:both;text-align: center;">
+	<img class="col-lg-6"  style='height:200px;width:200px;'  src="{% static "img/szymanek.jpg" %}" alt="Koszyk zakupowy"/>
+        <p class="lead" style="padding-top:40px;"> <small>Uwagi i sugestie związane z treścią proszę kierować do dh. Piotra Szymankiewicza.</small></p><p class="lead"> <a href="mailto:piotr.szymankiewicz@zhr.pl">piotr.szymankiewicz[at]zhr.pl</a></p>
+</div>
+<div style="clear:both;padding-top:20px;text-align: center;">
+	<img class="col-lg-6" style='height:200px;width:200px;'  src="{% static "img/szymon.jpg" %}" alt="Koszyk zakupowy"/>
+        <p class="lead" style="padding-top:40px;"> <small>Technikalia, błędy, chęć pomocy do dh. Szymon Kulińskiego</small></p><p class="lead" > <a href="mailto:szymon.kulinski@zhr.pl">szymon.kulinski[at]zhr.pl</a></p>
+</div>
+{% endblock %}
