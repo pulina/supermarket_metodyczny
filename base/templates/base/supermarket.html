@@ -11,7 +11,7 @@
 	<div style="text-align: center;"></div>
 	<p id="wartosc"></p>
 -->
-	 <input id='suwak' style="width:100%" type="range" value='0' min='0' max='{{max}}' onchange="setLabelPosition()"></input>  	
+	 <input id='suwak' style="width:100%" type="range" value='0' min='0' max='{{max}}' onchange="setLabelPosition()"></input>
 <br/>
 <div class="row marketing">
         <div class="col-lg-6 ramki">
@@ -20,7 +20,7 @@
 		<p class="lead" id='opis'></p>
 		<p class="lead">Możliwe funkcję:</p>
 		<ul id='funkcje'>
-		</ul> 
+		</ul>
         </div>
 
         <div class="col-lg-6 ramki">
@@ -32,7 +32,7 @@
 		var etapy = new Array();
 		{% load position_tags %}
 		{% for obj in object_list|order_by_position %}
-		etapy[{{ forloop.counter0 }}]={pk:"{{ obj.pk }}",nazwa:"{{ obj.nazwa }}",opis:"{{ obj.opis }}",wiek:"{{ obj.wiek_min }} - {{ obj.wiek_max }}",stopien:"{{ obj.stopien_slownie }}",funkcja:[{% for fun in obj.funkcja.all %}'{{fun}}',{% endfor %}]};
+		etapy[{{ forloop.counter0 }}]={pk:"{{ obj.pk }}",nazwa:"{{ obj.nazwa }}",opis:"{{ obj.opis }}",wiek:"{{ obj.wiek_min }} - {{ obj.wiek_max }}",stopien:"{{ obj.get_stopien_display }}",funkcja:[{% for fun in obj.funkcja.all %}'{{fun}}',{% endfor %}]};
 		{% endfor %}
     	function setLabelPosition(newValue) {
 		var newValue = document.getElementById("suwak").value;
@@ -44,7 +44,7 @@
 		document.getElementById("funkcje").innerHTML= '';
 		for (x in etapy[newValue].funkcja){
 			document.getElementById("funkcje").innerHTML+='<li>'+etapy[newValue].funkcja[x]+'</li>';
-		}	
+		}
 		$('#formy').load('/supermarket/'+etapy[newValue].pk+'/');
     	}
 	setLabelPosition(0);

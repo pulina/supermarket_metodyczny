@@ -1,5 +1,5 @@
 from django.contrib import admin
-from base.models import Blad, Pomysl, Komentarz, Tradycja, Forma, Okres, Funkcja 
+from base.models import Blad, Pomysl, Komentarz, Tradycja, Forma, Okres, Funkcja
 from generic_positions.admin import GenericPositionsAdmin
 
 admin.site.register(Blad)
