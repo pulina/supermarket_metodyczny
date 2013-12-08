@@ -13,6 +13,7 @@ setup(
         'south',
         'django-admin-tools',
         'django-generic-positions',
+        'django-js-reverse',
     ),
     packages=find_packages(),
     include_package_data=True,

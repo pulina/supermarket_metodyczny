@@ -84,6 +84,7 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'south',
     'generic_positions',
+    'django_js_reverse',
     'base'
 )
 LOGGING = {

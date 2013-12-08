@@ -45,7 +45,7 @@
 		for (x in etapy[newValue].funkcja){
 			document.getElementById("funkcje").innerHTML+='<li>'+etapy[newValue].funkcja[x]+'</li>';
 		}
-		$('#formy').load('/supermarket/'+etapy[newValue].pk+'/');
+		$('#formy').load(Urls.formy(etapy[newValue].pk));
     	}
 	setLabelPosition(0);
 </script>

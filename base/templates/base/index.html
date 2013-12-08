@@ -14,6 +14,7 @@
       <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
       <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
     <![endif]-->
+    <script src="{% url 'js_reverse' %}" type="text/javascript"></script>
     {% block extrahead %}{% endblock %}
   </head>
 
@@ -29,27 +30,27 @@
               <span class="icon-bar"></span>
               <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="/">Supermarket Metodyczny</a>
+            <a class="navbar-brand" href="{% url 'home' %}">Supermarket Metodyczny</a>
           </div>
           <div class="collapse navbar-collapse">
             <ul class="nav navbar-nav">
-              <li><a href="/o_projekcie/">O Projekcie</a></li>
-              <li><a href="/supermarket/">Na Zakupy</a></li>
+              <li><a href="{% url 'about' %}">O Projekcie</a></li>
+              <li><a href="{% url 'supermarket' %}">Na Zakupy</a></li>
 <!--
               <li class="dropdown">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">Idź do<b class="caret"></b></a>
                 <ul class="dropdown-menu">
-                  <li><a href="/pomysl/">Przeszukaj bazę pomysłów</a></li>
+                  <li><a href="{% url 'pomysly' %}">Przeszukaj bazę pomysłów</a></li>
                   <li><a href="/blad/">Przeszukaj bazę błędów</a></li>
                   <li><a href="/tradycja/">Przeszukaj bazę tradycji</a></li>
                   <li class="divider"></li>
                   <li class="dropdown-header">Chcesz pomóc</li>
-                  <li><a href="/dodaj/">Chcesz dodać jakiś pomysł</a></li>
-                  <li><a href="/ocena/">Chcesz ocenić pomysł</a></li>
+                  <li><a href="{% url 'dodaj' %}">Chcesz dodać jakiś pomysł</a></li>
+                  <li><a href="{% url 'ocena' %}">Chcesz ocenić pomysł</a></li>
                 </ul>
               </li>
 -->
-              <li><a href="/kontakt/">Kontakt</a></li>
+              <li><a href="{% url 'contact' %}">Kontakt</a></li>
             </ul>
           </div><!--/.nav-collapse -->
         </div>

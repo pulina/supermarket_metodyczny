@@ -8,19 +8,18 @@
         <div class="col-lg-6 ramki">
 		<p class="lead" style="position:relative;top:-40px">Pomysły:</p>
  		{% for pom in  pomysly %}
-            	<p class="lead" onmouseover="show_it({{pom.pk}})" onmouseout="$('#szczegoly').html('');" ><a href="/pomysl/{{pom.pk}}/">{{ pom.nazwa }}</a></p>
+            	<p class="lead" onmouseover="show_it({{pom.pk}})" onmouseout="$('#szczegoly').html('');" ><a href="{% url 'pomysl' pom.pk %}">{{ pom.nazwa }}</a></p>
         	{% endfor %}
         </div>
 
         <div class="col-lg-6">
-		<p class="lead" style="position:relative;top:+30px">Szczegóły:</p>
+		<p class="lead" style="position:relative;top:30px">Szczegóły:</p>
 		<div id='szczegoly' style='position: fixed; top:100px;'></div>
         </div>
       </div>
 <script type="text/javascript">
 	function show_it(pk) {
-		$('#szczegoly').load('/pomysl/'+pk+'/raw/')
-		$('#szczegoly').css('top', event.clientY)	
+		$('#szczegoly').load(Urls.pomysl_raw(pk)).css('top', event.clientY);
 	}
 </script>
 {% endblock %}

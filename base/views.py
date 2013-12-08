@@ -49,20 +49,12 @@ def formy_dla_okresu(request, okres_pk):
     return HttpResponse(t.render(c))
 
 
-def tradycja(request):
-    return render_to_response('base/home.html', {})
-
-
 def tradycja_detal(request, tradycja_pk, raw=False):
     obj = get_object_or_404(Tradycja, pk=tradycja_pk)
     if not raw:
         return render_to_response('base/tradycja_detal.html', {'tradycja': obj})
     else:
         return render_to_response('base/tradycja_raw.html', {'tradycja': obj})
-
-
-def blad(request):
-    return render_to_response('base/home.html', {})
 
 
 def blad_detal(request, blad_pk, raw=False):
@@ -75,10 +67,6 @@ def blad_detal(request, blad_pk, raw=False):
 
 def oprojekcie(request):
     return render_to_response('base/about.html', {})
-
-
-def forma(request):
-    return render_to_response('base/home.html', {})
 
 
 def forma_detal(request, forma_pk):

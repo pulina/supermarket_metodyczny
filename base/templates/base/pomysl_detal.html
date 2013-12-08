@@ -29,18 +29,17 @@
 	function show_it(pk,co) {
 		$('#szczegoly').show();
 		if(co=='blad'){
-			$('#szczegoly').load('/blad/'+pk+'/raw/')
+			$('#szczegoly').load(Urls.blad_raw(pk));
 		}else{
-			$('#szczegoly').load('/tradycja/'+pk+'/raw/')
+			$('#szczegoly').load(Urls.tradycja_raw(pk));
 		}
-		$('#szczegoly').css('top', event.clientY+20)	
-		$('#szczegoly').css('left', event.clientX+20)	
+		$('#szczegoly').css('top', event.clientY+20).css('left', event.clientX+20);
 	}
 	function go(pk,co) {
 	//	if(co=='blad'){
-	//		window.location = '/blad/'+pk+'/'
+	//		window.location = Urls.blad_raw(pk)
 	//	}else{
-	//		window.location = '/tradycja/'+pk+'/'
+	//		window.location = Urls.tradycja_raw(pk)
 	//	}
 	}
 $('#szczegoly').hide();
