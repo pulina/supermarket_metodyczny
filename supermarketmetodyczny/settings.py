@@ -16,7 +16,7 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'market',
-        'USER': 'pulina',
+        'USER': '',
         'PASSWORD': '',
         'HOST': '',
         'PORT': '',
@@ -114,3 +114,7 @@ LOGGING = {
 ADMIN_TOOLS_MENU = 'supermarketmetodyczny.menu.CustomMenu'
 ADMIN_TOOLS_INDEX_DASHBOARD = 'supermarketmetodyczny.dashboard.CustomIndexDashboard'
 ADMIN_TOOLS_APP_INDEX_DASHBOARD = 'supermarketmetodyczny.dashboard.CustomAppIndexDashboard'
+try:
+    from settings_custom import *
+except ImportError:
+    pass

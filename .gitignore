@@ -1,3 +1,7 @@
 *.pyc
 *.swp
 *.swo
+.idea\
+dist\
+Supermarket_Metodyczny.egg-info\
+supermarketmetodyczny\settings_custom.py
