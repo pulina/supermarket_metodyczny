@@ -1,8 +1,8 @@
 from django.conf.urls import patterns, include, url
-from django.conf.urls.defaults import *
 from django.contrib import admin
 from django.views.generic import RedirectView
-import settings
+
+
 admin.autodiscover()
 
 urlpatterns = patterns('base.views',
@@ -25,7 +25,6 @@ urlpatterns = patterns('base.views',
     url(r'^ocena/$', 'ocena'),
     url(r'^kontakt/$', 'kontakt'),
     url(r'^na_zakupy/$', RedirectView.as_view(url='/supermarket/')),
-#    url(r'^static/(?P<path>.*)$', 'django.views.static.serve', {'document_root': settings.STATIC_ROOT, 'show_indexes':True}),
     url(r'^pos/', include('generic_positions.urls')),
     url(r'^forma/(?P<forma_pk>\d+)/$', 'forma_detal'),
     url(r'^forma/$', 'forma'),

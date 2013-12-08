@@ -1,9 +1,17 @@
+from os import path
+
+PROJECT_HOME = path.abspath(path.dirname(__file__))
+
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
+ALLOWED_HOSTS = ['*']
+
 ADMINS = (
-     ('Szymon Kulinski', 'szymon.kulinski@zhr.pl')
+    ('Szymon Kulinski', 'szymon.kulinski@zhr.pl'),
+    ('Jacek Tomaszewski', 'jacek.tomek@gmail.com'),
 )
 MANAGERS = ADMINS
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
@@ -14,20 +22,29 @@ DATABASES = {
         'PORT': '',                      # Set to empty string for default.
     }
 }
-ALLOWED_HOSTS = []
+
 TIME_ZONE = 'Europe/Warsaw'
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'pl'
 SITE_ID = 1
 USE_I18N = True
 USE_L10N = True
 USE_TZ = True
-MEDIA_ROOT = ''
-MEDIA_URL = ''
-STATIC_ROOT = ''
+
+MEDIA_ROOT = path.join(PROJECT_HOME, 'media')
+MEDIA_URL = '/media/'
+STATIC_ROOT = path.join(PROJECT_HOME, 'servestatic')
 STATIC_URL = '/static/'
+
+ROOT_URLCONF = 'supermarketmetodyczny.urls'
+WSGI_APPLICATION = 'supermarketmetodyczny.wsgi.application'
+
 STATICFILES_DIRS = (
-	'/home/pulina/supermarkert_metodyczny/supermarketmetodyczny/static/',
+    path.join(PROJECT_HOME, 'static'),
 )
+TEMPLATE_DIRS = (
+    path.join(PROJECT_HOME, 'templates'),
+)
+
 TEMPLATE_CONTEXT_PROCESSORS = (
     "django.contrib.auth.context_processors.auth",
     "django.core.context_processors.debug",
@@ -53,11 +70,6 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
-)
-ROOT_URLCONF = 'supermarketmetodyczny.urls'
-WSGI_APPLICATION = 'supermarketmetodyczny.wsgi.application'
-TEMPLATE_DIRS = (
-    '/home/pulina/supermarkert_metodyczny/supermarketmetodyczny/templates/',
 )
 
 INSTALLED_APPS = (
