@@ -54,8 +54,8 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
 )
-ROOT_URLCONF = 'urls'
-WSGI_APPLICATION = 'wsgi.application'
+ROOT_URLCONF = 'supermarketmetodyczny.urls'
+WSGI_APPLICATION = 'supermarketmetodyczny.wsgi.application'
 TEMPLATE_DIRS = (
     '/home/pulina/supermarkert_metodyczny/supermarketmetodyczny/templates/',
 )
@@ -100,6 +100,6 @@ LOGGING = {
     }
 }
 
-ADMIN_TOOLS_MENU = 'menu.CustomMenu'
-ADMIN_TOOLS_INDEX_DASHBOARD = 'dashboard.CustomIndexDashboard'
-ADMIN_TOOLS_APP_INDEX_DASHBOARD = 'dashboard.CustomAppIndexDashboard'
+ADMIN_TOOLS_MENU = 'supermarketmetodyczny.menu.CustomMenu'
+ADMIN_TOOLS_INDEX_DASHBOARD = 'supermarketmetodyczny.dashboard.CustomIndexDashboard'
+ADMIN_TOOLS_APP_INDEX_DASHBOARD = 'supermarketmetodyczny.dashboard.CustomAppIndexDashboard'
