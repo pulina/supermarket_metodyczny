@@ -32,8 +32,6 @@ class Funkcja(models.Model):
 
 class Forma(models.Model):
     nazwa = models.CharField(max_length=200)
-    wiek_min = models.IntegerField()
-    wiek_max = models.IntegerField()
 
     def __unicode__(self):
         return self.nazwa
