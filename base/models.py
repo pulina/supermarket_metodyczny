@@ -42,7 +42,7 @@ class Forma(models.Model):
 class Okres(models.Model):
     generic_position = generic.GenericRelation('generic_positions.ObjectPosition')
     nazwa = models.CharField(max_length=200)
-    opis = models.CharField(max_length=200)
+    opis = models.TextField()
     wiek_min = models.IntegerField()
     wiek_max = models.IntegerField()
     stopien = models.CharField(max_length=200, choices=STOPNIE)
@@ -55,7 +55,7 @@ class Okres(models.Model):
 
 class Blad(models.Model):
     nazwa = models.CharField(max_length=200)
-    opis = models.CharField(max_length=200)
+    opis = models.TextField()
     szkodliwosc = models.CharField(max_length=200, choices=SZKODLIWOSC)
 
     def __unicode__(self):
@@ -63,7 +63,7 @@ class Blad(models.Model):
 
 
 class Tradycja(models.Model):
-    opis = models.CharField(max_length=200)
+    opis = models.TextField()
     nazwa = models.CharField(max_length=200)
 
     def __unicode__(self):
@@ -74,7 +74,7 @@ class Pomysl(models.Model):
     nazwa = models.CharField(max_length=200)
     zgodnosc_z_metoda = models.CharField(max_length=5, choices=TAKNIE)
     skutecznosc_base = models.IntegerField()
-    opis = models.CharField(max_length=200)
+    opis = models.TextField()
     blady = models.ManyToManyField(Blad, blank=True, null=True)
     zaakceptowany = models.BooleanField()
     forma = models.ManyToManyField(Forma, blank=True, null=True)
