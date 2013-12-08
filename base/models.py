@@ -61,8 +61,8 @@ class Blad(models.Model):
 
 
 class Tradycja(models.Model):
-    opis = models.TextField()
     nazwa = models.CharField(max_length=200)
+    opis = models.TextField()
 
     def __unicode__(self):
         return self.nazwa
