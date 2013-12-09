@@ -114,7 +114,11 @@ LOGGING = {
 ADMIN_TOOLS_MENU = 'supermarketmetodyczny.menu.CustomMenu'
 ADMIN_TOOLS_INDEX_DASHBOARD = 'supermarketmetodyczny.dashboard.CustomIndexDashboard'
 ADMIN_TOOLS_APP_INDEX_DASHBOARD = 'supermarketmetodyczny.dashboard.CustomAppIndexDashboard'
+
+ORDERABLE_ORDER_EDITABLE = False
+
 try:
     from settings_custom import *
 except ImportError:
     pass
+
