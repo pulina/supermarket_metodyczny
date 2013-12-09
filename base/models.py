@@ -3,6 +3,9 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.contrib.contenttypes import generic
 
+from orderable.models import Orderable
+
+
 SZKODLIWOSC = (
     ('vh', 'bardzo wysoka'),
     ('h', 'wysoka'),
@@ -37,8 +40,7 @@ class Forma(models.Model):
         return self.nazwa
 
 
-class Okres(models.Model):
-    generic_position = generic.GenericRelation('generic_positions.ObjectPosition')
+class Okres(Orderable):
     nazwa = models.CharField(max_length=200)
     opis = models.TextField()
     wiek_min = models.IntegerField()

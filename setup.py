@@ -12,7 +12,7 @@ setup(
         'django>=1.6,<1.7',
         'south',
         'django-admin-tools',
-        'django-generic-positions',
+        'django-orderable',
         'django-js-reverse',
     ),
     packages=find_packages(),

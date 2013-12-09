@@ -83,7 +83,7 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'south',
-    'generic_positions',
+    'orderable',
     'django_js_reverse',
     'base'
 )

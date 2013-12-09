@@ -30,8 +30,7 @@
       </div>
 <script type="text/javascript">
 		var etapy = new Array();
-		{% load position_tags %}
-		{% for obj in object_list|order_by_position %}
+		{% for obj in object_list %}
 		etapy[{{ forloop.counter0 }}]={pk:"{{ obj.pk }}",nazwa:"{{ obj.nazwa }}",opis:"{{ obj.opis }}",wiek:"{{ obj.wiek_min }} - {{ obj.wiek_max }}",stopien:"{{ obj.get_stopien_display }}",funkcja:[{% for fun in obj.funkcja.all %}'{{fun}}',{% endfor %}]};
 		{% endfor %}
     	function setLabelPosition(newValue) {
