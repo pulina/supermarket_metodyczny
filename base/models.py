@@ -1,7 +1,7 @@
 # -*- coding: UTF-8 -*-
 from django.db import models
 from django.contrib.auth.models import User
-from django.contrib.contenttypes import generic
+from django.core.urlresolvers import reverse
 
 from orderable.models import Orderable
 
@@ -38,6 +38,9 @@ class Forma(models.Model):
 
     def __unicode__(self):
         return self.nazwa
+
+    def get_absolute_url(self):
+        return reverse('forma', args=[self.id])
 
 
 class Okres(Orderable):
@@ -82,6 +85,9 @@ class Pomysl(models.Model):
 
     def __unicode__(self):
         return self.nazwa
+
+    def get_absolute_url(self):
+        return reverse('pomysl', args=[self.id])
 
 
 class Komentarz(models.Model):
