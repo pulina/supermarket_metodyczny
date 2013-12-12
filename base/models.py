@@ -12,10 +12,6 @@ SZKODLIWOSC = (
     ('m', 'umiarkowana'),
     ('l', 'niska')
 )
-TAKNIE = (
-    ('True', 'Tak'),
-    ('False', 'Nie'),
-)
 STOPNIE = (
     ('bs', u'Bez stopnia'),
     ('ml', u'Młodzik/Ochotniczka'),
@@ -91,7 +87,7 @@ class Tradycja(models.Model):
 
 class Pomysl(models.Model):
     nazwa = models.CharField(max_length=200)
-    zgodnosc_z_metoda = models.CharField(max_length=5, choices=TAKNIE)
+    zgodnosc_z_metoda = models.BooleanField()
     skutecznosc_base = models.IntegerField()
     opis = models.TextField()
     blady = models.ManyToManyField(Blad, blank=True, null=True)
