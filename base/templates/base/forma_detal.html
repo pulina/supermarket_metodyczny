@@ -8,7 +8,7 @@
         <div class="col-lg-6 ramki">
 		<p class="lead" style="position:relative;top:-40px">Pomysły:</p>
  		{% for pom in  pomysly %}
-            	<p class="lead" onmouseover="show_it({{pom.pk}})" onmouseout="$('#szczegoly').html('');" ><a href="{% url 'pomysl' pom.pk %}">{{ pom.nazwa }}</a></p>
+            	<p class="lead"><a href="{% url 'pomysl' pom.pk %}" onmouseover="show_it({{pom.pk}}, this)" onmouseout="$('#szczegoly').html('');">{{ pom.nazwa }}</a></p>
         	{% endfor %}
         </div>
 
@@ -18,8 +18,8 @@
         </div>
       </div>
 <script type="text/javascript">
-	function show_it(pk) {
-		$('#szczegoly').load(Urls.pomysl_raw(pk)).css('top', event.clientY);
+	function show_it(pk, element) {
+		$('#szczegoly').load(Urls.pomysl_raw(pk)).css('top', $(element).offset()['top']);
 	}
 </script>
 {% endblock %}
