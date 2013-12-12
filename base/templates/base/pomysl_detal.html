@@ -13,27 +13,27 @@
 		<p class="lead" style="padding-top:30px">Tradycje związane z pomysłem:</p>
 		<ul>
  		{% for b in  blady %}
-                <li onclick="go({{b.pk}},'blad')" onmouseover="show_it({{b.pk}},'blad')" onmouseout="$('#szczegoly').hide();" >{{ b.nazwa }}</li>
+                <li onclick="go({{b.pk}},'blad')" onmouseover="show_it({{b.pk}}, this,'blad')" onmouseout="$('#szczegoly').hide();" >{{ b.nazwa }}</li>
                 {% endfor %}
 		</ul>
 		<p class="lead" style="padding-top:30px">Błędy związane z pomysłem:</p>
 		<ul>
  		{% for t in  tradycje %}
-                <li onclick="go({{t.pk}},'tradycja')" onmouseover="show_it({{t.pk}},'tradycja')" onmouseout="$('#szczegoly').hide();" >{{ t.nazwa }}</li>
+                <li onclick="go({{t.pk}},'tradycja')" onmouseover="show_it({{t.pk}}, this,'tradycja')" onmouseout="$('#szczegoly').hide();" >{{ t.nazwa }}</li>
                 {% endfor %}
 		</ul>
         </div>
       </div>
 <div id='szczegoly' style="background-color: #333333;color: #ffffff;position: fixed;padding:10px;border-radius:25px;"></div>
 <script type="text/javascript">
-	function show_it(pk,co) {
-		$('#szczegoly').show();
-		if(co=='blad'){
-			$('#szczegoly').load(Urls.blad_raw(pk));
-		}else{
-			$('#szczegoly').load(Urls.tradycja_raw(pk));
+	function show_it(pk,element, co) {
+		var func;
+        if(co=='blad') {
+			func = Urls.blad_raw;
+		} else {
+			func = Urls.tradycja_raw;
 		}
-		$('#szczegoly').css('top', event.clientY+20).css('left', event.clientX+20);
+		$('#szczegoly').load(func(pk)).show().css('top', $(element).offset().top - 20);
 	}
 	function go(pk,co) {
 	//	if(co=='blad'){
@@ -42,6 +42,9 @@
 	//		window.location = Urls.tradycja_raw(pk)
 	//	}
 	}
-$('#szczegoly').hide();
+    $(function(){
+        var ramki = $('.ramki');
+        $('#szczegoly').css('right', $(window).width() - ramki.offset().left).hide();
+    });
 </script>
 {% endblock %}
