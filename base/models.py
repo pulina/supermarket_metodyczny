@@ -29,12 +29,18 @@ STOPNIE = (
 class Funkcja(models.Model):
     nazwa = models.CharField(max_length=200)
 
+    class Meta:
+        verbose_name_plural = 'Funkcje'
+
     def __unicode__(self):
         return self.nazwa
 
 
 class Forma(models.Model):
     nazwa = models.CharField(max_length=200)
+
+    class Meta:
+        verbose_name_plural = 'Formy'
 
     def __unicode__(self):
         return self.nazwa
@@ -52,6 +58,9 @@ class Okres(Orderable):
     funkcja = models.ManyToManyField(Funkcja, blank=True, null=True)
     forma = models.ManyToManyField(Forma, blank=True, null=True)
 
+    class Meta(Orderable.Meta):
+        verbose_name_plural = 'Okresy'
+
     def __unicode__(self):
         return self.nazwa
 
@@ -61,6 +70,10 @@ class Blad(models.Model):
     opis = models.TextField()
     szkodliwosc = models.CharField(max_length=200, choices=SZKODLIWOSC)
 
+    class Meta:
+        verbose_name = 'Błąd'
+        verbose_name_plural = 'Błędy'
+
     def __unicode__(self):
         return self.nazwa
 
@@ -68,6 +81,9 @@ class Blad(models.Model):
 class Tradycja(models.Model):
     nazwa = models.CharField(max_length=200)
     opis = models.TextField()
+
+    class Meta:
+        verbose_name_plural = 'Tradycje'
 
     def __unicode__(self):
         return self.nazwa
@@ -83,6 +99,10 @@ class Pomysl(models.Model):
     forma = models.ManyToManyField(Forma, blank=True, null=True)
     tradycja = models.ManyToManyField(Tradycja, blank=True, null=True)
 
+    class Meta:
+        verbose_name = 'Pomysł'
+        verbose_name_plural = 'Pomysły'
+
     def __unicode__(self):
         return self.nazwa
 
@@ -96,6 +116,9 @@ class Komentarz(models.Model):
     data_publikacji = models.DateTimeField('data publikacji')
     pomysl = models.ForeignKey(Pomysl)
     ocena = models.IntegerField()
+
+    class Meta:
+        verbose_name_plural = 'Komentarze'
 
     def __unicode__(self):
         return '{0} - {1}'.format(self.autor.username, self.zawartosc)
