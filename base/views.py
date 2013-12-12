@@ -39,14 +39,8 @@ def pomysl_detal(request, pomysl_pk, raw=False):
 
 
 def formy_dla_okresu(request, okres_pk):
-    t = template.Template("""
-    {% for obj in forma %}
-        <p><a href='/forma/{{obj.pk}}'>{{ obj }}</a></p>
-    {% endfor %}
-    """)
     okres = get_object_or_404(Okres, pk=okres_pk)
-    c = template.Context({'forma': okres.forma.all()})
-    return HttpResponse(t.render(c))
+    return render_to_response('base/formy.html', {'forma': okres.forma.all()})
 
 
 def tradycja_detal(request, tradycja_pk, raw=False):
