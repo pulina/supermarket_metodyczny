@@ -7,13 +7,9 @@ na realizację form dostosowanych do warunków harcerza.
 TODO:
 -----
 
-- Postawić na serwerze i wypełnić baze przykładowymi wartościmi
-- Zrobić backupa do Yaml aby można było testować na instancjach prywatnych
-- Skończyć widoki List dla poszczególnych klas
 - Skończyć widoki Detali dla poszczególnych klas
 - Customizacja Django Admina
 - Tłumaczenie Django Admina
-- Zmiana nazw Plural i Singular pul w modelu
 - Dodanie skrótw do stron z nadrzedymi obiektami np Z Pomysł do powiązanej z nim Formy
 - Zaprojektowanie funkcji podobieństwa Pomysłów
 - Stworzenie listy podobynch pomysłów w widoku Pomysłu
