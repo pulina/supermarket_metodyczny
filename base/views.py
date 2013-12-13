@@ -2,7 +2,14 @@ from django.http import HttpResponse
 from django.shortcuts import render_to_response, get_object_or_404
 from base.models import Pomysl, Forma, Okres, Blad, Tradycja
 from django import template
+from django.views.generic.list import ListView
+from django.utils import timezone
 
+class Generic(ListView):
+    def get_context_data(self, **kwargs):
+        context = super(Generic, self).get_context_data(**kwargs)
+        context.__class__
+        return context
 
 def home(request):
     return render_to_response('base/home.html', {})

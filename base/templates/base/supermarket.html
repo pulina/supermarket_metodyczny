@@ -46,8 +46,12 @@
             document.getElementById("opis").innerHTML=etapy[newValue].opis;
             document.getElementById("nazwa").innerHTML=etapy[newValue].nazwa;
             document.getElementById("funkcje").innerHTML= '';
-            for (var x in etapy[newValue].funkcja){
-                document.getElementById("funkcje").innerHTML+='<li>'+etapy[newValue].funkcja[x]+'</li>';
+            if(etapy[newValue].funkcja.length>=0){
+                for (var x in etapy[newValue].funkcja){
+                    document.getElementById("funkcje").innerHTML+='<li>'+etapy[newValue].funkcja[x]+'</li>';
+                }
+            }else{
+                document.getElementById("funkcje").innerHTML='<li>Brak powiązanych funkcji</li>';
             }
             $('#formy').load(Urls.formy(etapy[newValue].pk));
     	}

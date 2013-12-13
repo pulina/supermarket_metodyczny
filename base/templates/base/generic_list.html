@@ -1,0 +1,30 @@
+{% extends "base/index.html" %}
+{% block title %}Supermarket Metodyczny{% endblock %}
+{% block content %}
+<div class="page-header">
+    {% block list_title %}
+    {% endblock %}
+</div>
+
+<table class="table table-striped">
+    <thead>
+    <tr>
+        <th>#</th>
+        <th>Nazwa</th>
+        <th>Opis</th>
+    </tr>
+    </thead>
+    {% for obj in object_list %}
+    <tr>
+        {% if obj.opis|length <= 100 %}
+             <td>{{ obj.pk }}</td> <td><a href="{{obj.pk}}/">{{ obj.nazwa }}</a></td> <td>{{ obj.opis }}</td>
+        {% else  %}
+            <td>{{ obj.pk }}</td> <td><a href="{{obj.pk}}/">{{ obj.nazwa }}</a></td> <td>{{ obj.opis|slice:":100" }}...</td></a>
+        {% endif %}
+
+    {% empty %}
+    <td>BRAK</td>
+    {% endfor %}
+    </tr>
+</table>
+{% endblock %}
