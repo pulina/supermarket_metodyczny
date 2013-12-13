@@ -34,6 +34,7 @@ class Funkcja(models.Model):
 
 class Forma(models.Model):
     nazwa = models.CharField(max_length=200)
+    opis = models.TextField()
 
     class Meta:
         verbose_name_plural = 'Formy'
