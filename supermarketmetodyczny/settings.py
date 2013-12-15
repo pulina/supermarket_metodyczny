@@ -12,6 +12,8 @@ ADMINS = (
 )
 MANAGERS = ADMINS
 
+APPEND_SLASH = True
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
