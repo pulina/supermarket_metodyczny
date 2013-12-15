@@ -1,9 +1,16 @@
 from django.http import HttpResponse
 from django.shortcuts import render_to_response, get_object_or_404
 from base.models import Pomysl, Forma, Okres, Blad, Tradycja
-from django import template
+from django.template import RequestContext
 from django.views.generic.list import ListView
 from django.utils import timezone
+from django import forms
+from recaptchawidget.fields import ReCaptchaField
+
+
+class ReCaptchaForm(forms.Form):
+    recaptcha = ReCaptchaField()
+
 
 class Generic(ListView):
     def get_context_data(self, **kwargs):
@@ -25,7 +32,20 @@ def kontakt(request):
 
 
 def dodaj(request):
-    return render_to_response('base/home.html', {})
+    """
+    It is pointless to valid form fields in django. Minimal validation implemented in JS.
+    """
+    captcha = ReCaptchaForm()
+    if request.method == 'POST':
+        form = ReCaptchaForm(request.POST)
+        if form.is_valid():
+            return render_to_response('base/add_form.html', {'cap': captcha, 'toast': True, 'success': True},
+                                      context_instance=RequestContext(request))
+        else:
+            return render_to_response('base/add_form.html', {'cap': captcha, 'toast': True, 'success': False},
+                                      context_instance=RequestContext(request))
+    else:
+        return render_to_response('base/add_form.html', {'cap': captcha}, context_instance=RequestContext(request))
 
 
 def ocena(request):

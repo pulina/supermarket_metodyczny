@@ -30,6 +30,9 @@ USE_I18N = True
 USE_L10N = True
 USE_TZ = True
 
+RECAPTCHA_PUBLIC_KEY = '6Le60OsSAAAAAOH-gR_t52sqLkn75CRPS09shpKO'
+RECAPTCHA_PRIVATE_KEY = '6Le60OsSAAAAAONFPpog2epgi1e-AabCj7EixXhQ'
+
 MEDIA_ROOT = path.join(PROJECT_HOME, 'media')
 MEDIA_URL = '/media/'
 STATIC_ROOT = path.join(PROJECT_HOME, 'servestatic')

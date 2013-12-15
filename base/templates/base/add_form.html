@@ -1,0 +1,132 @@
+{% extends "base/index.html" %}
+{% load staticfiles %}
+{% block title %}Supermarket Metodyczny{% endblock %}
+{% block content %}
+<div class="page-header">
+    <h1>Co proponujesz?</h1>
+</div>
+<p class="lead">Bardzo nam zależy na tym abyś wspomógł nas swoją wiedzą. Jeśli chciałbyś coś zaproponować to napewno
+    pomoże nam to w rozwiajniu
+    tego portalu. Jeśli chcesz o coś zapytać skorzystaj z <a href="{& url contact &}"> >>tego<< <a/></p>
+<form role="form" action="./" method="POST">{% csrf_token %}
+    <div class="form-group col-md-6  center-block ">
+        {% if toast %}
+            {% if success %}
+                <p class="alert alert-info" >Wysłano pomyślnie</p>
+            {% else %}
+                <p class="alert alert-info" >Nie jesteś człowiekiem! ... lub obrazek był zbyt trudny<p>
+            {% endif %}
+        {% endif %}
+        <div class="form-group">
+            <label for="nick">Nick</label>
+            <input type="text" class="form-control" id="nick" placeholder="Wprowadź nick">
+        </div>
+
+        <div class="form-group">
+            <label for="email">Email</label>
+            <input type="email" class="form-control" id="email" placeholder="Wprowadź email">
+        </div>
+        <div class="form-group">
+            <label for="stopien">Stopień Instruktorski</label><br/>
+            <select name="stopien" id="stopien" class="form-control">
+                <option value="pwd">Przewodnik/Przewodniczka</option>
+                <option value="phm">Podharcmistrz/Podharcmistrzyni</option>
+                <option value="hm">Harcmistrz/Harcmistrzyni</option>
+                <option value="brak">Brak stopnia</option>
+                <option value="inny">Inny stopień</option>
+                <option value="anonymous" selected>Chcę zachować anonimowość</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="funkcja">Funkcja</label><br/>
+            <select name="funkcja" id="funkcja" class="form-control">
+                <option value="przyboczny">Przyboczny/a</option>
+                <option value="drużywy">Drużynowy/wa</option>
+                <option value="hufcowy">Hufcowy/wa</option>
+                <option value="komendant chorągwi">Komendtant/Komendantka Chorągwi</option>
+                <option value="główna kwatera">Główna Kwatera</option>
+                <option value="działacz lokalny">Działacz lokalny</option>
+                <option value="w rezerwie">W rezerwie</option>
+                <option value="brak">Brak</option>
+                <option value="inna">Inna</option>
+                <option value="anonymous" selected>Chcę zachować anonimowość</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label>Płeć</label><br/>
+            <label class="radio-inline" for="female">
+            <input id="female" type="radio" name="female" value="harcerka" class="form-control">Harcerka
+            </label>
+            <label class="radio-inline" for="male">
+            <input id="male" type="radio" name="male" value="harcerz" checked="true" class="form-control">Harcerz
+            </label>
+        </div>
+        <div class="form-group">
+            <label for="organizacja">Organizacja</label><br/>
+            <select name="organizacja" id="organizacja" class="form-control">
+                <option value="zhr">ZHR</option>
+                <option value="zhp">ZHP</option>
+                <option value="zawisza" selected>SHK "Zawisza"</option>
+                <option value="rr">Royal Rangers Polska</option>
+                <option value="sh">Stowarzyszenie Harcerskie</option>
+                <option value="Leśna Szkółka">Niezależny Krąg Instruktorów Harcerskich Leśna Szkółka</option>
+                <option value="inna">Inna</option>
+                <option value="anonymous" selected>Chcę zachować anonimowość</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="city">Skąd jesteś?</label><br/>
+            <input type="text" id="city" name="city" class="form-control" placeholder="Elbląg?"><br/>
+            <button type="button"  class="btn btn-primary btn-sm" onclick="getLocation()">Znajdź mnie</button><br/>
+        </div>
+        <div class="form-group">
+            <label for="dotyczy">Twoja propozycja dotyczy?</label><br/>
+            <select name="dotyczy" id="dotyczy" class="form-control">
+                <option value="pomysł">Pomysł</option>
+                <option value="tradycja">Tradycja</option>
+                <option value="forma">Forma</option>
+                <option value="inne">Inne</option>
+                <option value="cieżko stwierdzić">Ciężko stwierdzić</option>
+                <option value="kilka na raz">Kilku z nich</option>
+                <option value="compleksowe">Chcę zaproponować kompleksowe rozwiązanie</option>
+                <option value="anonymous" selected>Właściwie to nie wiem czego chce</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="opis">Opisz problem</label><br/>
+            <textarea rows="30" cols="100" id="opis" class="form-control" placeholder=" Postaraj się jak najzwięźlej opisać swoją propozycję, podaj dużo przykładów odniesień. Możesz również zaproponować dodatkową formę kontaktu."></textarea>
+        </div>
+        {{ cap.recaptcha }}
+        <button type="submit" class="btn btn-default">Submit</button>
+        </div>
+</form>
+<script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script>
+<script>
+function getLocation()
+  {
+  if (navigator.geolocation)
+    {
+    navigator.geolocation.watchPosition(showPosition);
+    }
+  else{
+    alert('Twoja przeglądarka nie obsługuję tej funkcionalności');
+  }
+  }
+function showPosition(position)
+  {
+    var latlng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+    var geocoder = new google.maps.Geocoder()
+    var result
+    geocoder.geocode({location:latlng}, function(results, status) {
+    window.results = results
+        $.each(results[1].address_components, function (i, address_component) {
+            if (address_component.types[0] == "locality"){
+                document.getElementById("city").value = address_component.long_name;
+                return false; // break the loop
+            }
+        });
+    });
+  }
+
+</script>
+{% endblock %}
