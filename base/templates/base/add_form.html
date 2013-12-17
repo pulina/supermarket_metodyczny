@@ -7,7 +7,7 @@
 </div>
 <p class="lead">Bardzo nam zależy na tym abyś wspomógł nas swoją wiedzą. Jeśli chciałbyś coś zaproponować to napewno
     pomoże nam to w rozwiajniu
-    tego portalu. Jeśli chcesz o coś zapytać skorzystaj z <a href="{& url contact &}"> >>tego<< <a/></p>
+    tego portalu. Jeśli chcesz o coś zapytać skorzystaj z <a href="{% url 'contact' %}"> tego</a>.</p>
 <form role="form" action="./" method="POST">{% csrf_token %}
     <div class="form-group col-md-6  center-block ">
         {% if toast %}
@@ -97,7 +97,7 @@
             <textarea rows="30" cols="100" id="opis" class="form-control" placeholder=" Postaraj się jak najzwięźlej opisać swoją propozycję, podaj dużo przykładów odniesień. Możesz również zaproponować dodatkową formę kontaktu."></textarea>
         </div>
         {{ cap.recaptcha }}
-        <button type="submit" class="btn btn-default">Submit</button>
+        <button type="submit" class="btn btn-default">Zapisz</button>
         </div>
 </form>
 <script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script>

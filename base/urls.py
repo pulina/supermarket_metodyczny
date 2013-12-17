@@ -1,6 +1,5 @@
 from django.conf.urls import patterns, url
 from django.views.generic import RedirectView
-from django.conf.urls import patterns, url
 from base.views import Generic
 from base.models import Pomysl, Forma, Okres, Blad, Tradycja
 
@@ -9,7 +8,7 @@ urlpatterns = patterns('base.views',
     url(r'^kontakt/$', 'kontakt', name='contact'),
     url(r'^o_projekcie/$', 'oprojekcie', name='about'),
 
-    url(r'^okres/$', Generic.as_view(model=Forma), name='okresy'),
+    url(r'^okres/$', Generic.as_view(model=Okres), name='okresy'),
     url(r'^pomysl/$', Generic.as_view(model=Pomysl), name='pomysly'),
     url(r'^pomysl/(?P<pomysl_pk>\d+)/$', 'pomysl_detal', name='pomysl'),
     url(r'^pomysl/(?P<pomysl_pk>\d+)/raw/$', 'pomysl_detal', {'raw': True}, name='pomysl_raw'),
@@ -22,8 +21,8 @@ urlpatterns = patterns('base.views',
         name='tradycja_raw'),
 
     url(r'^supermarket/$', 'supermarket', name='supermarket'),
-    url(r'^supermarket/(?P<okres_pk>\d+)/$', 'formy_dla_okresu', name='formy'),
-    url(r'^forma/$', Generic.as_view(model=Forma), name='formay'),
+    url(r'^supermarket/(?P<okres_pk>\d+)/$', 'formy_dla_okresu', name='supermarket_formy'),
+    url(r'^forma/$', Generic.as_view(model=Forma), name='formy'),
     url(r'^forma/(?P<forma_pk>\d+)/$', 'forma_detal', name='forma'),
     url(r'^na_zakupy/$', RedirectView.as_view(pattern_name='supermarket')),
 

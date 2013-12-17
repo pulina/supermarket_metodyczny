@@ -16,15 +16,10 @@
     </thead>
     {% for obj in object_list %}
     <tr>
-        {% if obj.opis|length <= 100 %}
-             <td>{{ obj.pk }}</td> <td><a href="{{obj.pk}}/">{{ obj.nazwa }}</a></td> <td>{{ obj.opis }}</td>
-        {% else  %}
-            <td>{{ obj.pk }}</td> <td><a href="{{obj.pk}}/">{{ obj.nazwa }}</a></td> <td>{{ obj.opis|slice:":100" }}...</td></a>
-        {% endif %}
-
-    {% empty %}
-    <td>BRAK</td>
-    {% endfor %}
+        <td>{{ obj.pk }}</td> <td><a href="{{obj.pk}}/">{{ obj.nazwa }}</a></td> <td>{{ obj.opis|truncatewords:20 }}</td>
     </tr>
+    {% empty %}
+    <tr><td colspan="3">BRAK</td></tr>
+    {% endfor %}
 </table>
 {% endblock %}
