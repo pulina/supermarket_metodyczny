@@ -15,6 +15,7 @@ class ReCaptchaForm(forms.Form):
 class Generic(ListView):
     def get_context_data(self, **kwargs):
         context = super(Generic, self).get_context_data(**kwargs)
+        context['has_url'] = hasattr(self.model, 'get_absolute_url')
         return context
 
 def home(request):

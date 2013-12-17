@@ -74,6 +74,9 @@ class Blad(models.Model):
     def __unicode__(self):
         return self.nazwa
 
+    def get_absolute_url(self):
+        return reverse('blad', args=[self.id])
+
 
 class Tradycja(models.Model):
     nazwa = models.CharField(max_length=200)
@@ -84,6 +87,9 @@ class Tradycja(models.Model):
 
     def __unicode__(self):
         return self.nazwa
+
+    def get_absolute_url(self):
+        return reverse('tradycja', args=[self.id])
 
 
 class Pomysl(models.Model):
