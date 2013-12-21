@@ -19,12 +19,12 @@
         {% endif %}
         <div class="form-group">
             <label for="nick">Nick</label>
-            <input type="text" class="form-control" id="nick" placeholder="Wprowadź nick">
+            <input type="text" name="nick" class="form-control" id="nick" placeholder="Wprowadź nick">
         </div>
 
         <div class="form-group">
             <label for="email">Email</label>
-            <input type="email" class="form-control" id="email" placeholder="Wprowadź email">
+            <input type="email" class="form-control" id="email"  name="email" placeholder="Wprowadź email">
         </div>
         <div class="form-group">
             <label for="stopien">Stopień Instruktorski</label><br/>
@@ -55,10 +55,10 @@
         <div class="form-group">
             <label>Płeć</label><br/>
             <label class="radio-inline" for="female">
-            <input id="female" type="radio" name="female" value="harcerka" class="form-control">Harcerka
+            <input id="female" type="radio" name="plec" value="harcerka" class="form-control">Harcerka
             </label>
             <label class="radio-inline" for="male">
-            <input id="male" type="radio" name="male" value="harcerz" checked="true" class="form-control">Harcerz
+            <input id="male" type="radio" name="plec" value="harcerz" checked="true" class="form-control">Harcerz
             </label>
         </div>
         <div class="form-group">
@@ -76,7 +76,7 @@
         </div>
         <div class="form-group">
             <label for="city">Skąd jesteś?</label><br/>
-            <input type="text" id="city" name="city" class="form-control" placeholder="Elbląg?"><br/>
+            <input type="text" id="city" name="skad_jestes" class="form-control" placeholder="Elbląg?"><br/>
             <button type="button"  class="btn btn-primary btn-sm" onclick="getLocation()">Znajdź mnie</button><br/>
         </div>
         <div class="form-group">
@@ -94,7 +94,7 @@
         </div>
         <div class="form-group">
             <label for="opis">Opisz problem</label><br/>
-            <textarea rows="30" cols="100" id="opis" class="form-control" placeholder=" Postaraj się jak najzwięźlej opisać swoją propozycję, podaj dużo przykładów odniesień. Możesz również zaproponować dodatkową formę kontaktu."></textarea>
+            <textarea name="opis" rows="30" cols="100" id="opis" class="form-control" placeholder=" Postaraj się jak najzwięźlej opisać swoją propozycję, podaj dużo przykładów odniesień. Możesz również zaproponować dodatkową formę kontaktu."></textarea>
         </div>
         {{ cap.recaptcha }}
         <button type="submit" class="btn btn-default">Zapisz</button>

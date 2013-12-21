@@ -1,5 +1,5 @@
 from django.contrib import admin
-from base.models import Blad, Pomysl, Komentarz, Tradycja, Forma, Okres, Funkcja
+from base.models import Blad, Pomysl, Komentarz, Tradycja, Forma, Okres, Funkcja,Poropozycja
 from orderable.admin import OrderableAdmin
 
 
@@ -15,6 +15,7 @@ admin.site.register(Komentarz)
 admin.site.register(Tradycja)
 admin.site.register(Forma)
 admin.site.register(Funkcja)
+admin.site.register(Poropozycja)
 
 
 class okresAdmin(OrderableAdmin, MyAdmin):

@@ -20,6 +20,23 @@ STOPNIE = (
     ('ho', u'Harcerz Orli/Wędrowniczka'),
     ('hr', u'Harcerz/Harcerka Rzeczypospolitej')
 )
+    
+
+class Poropozycja(models.Model):
+    """
+    Why charField for choice option like 'funkcja' ... a lot of my change
+    no sense to prepere choice option.
+    """
+    n="Niewiadomo"
+    nick = models.CharField(max_length=200,default=n)
+    email = models.EmailField(max_length=200,default=n)
+    stopien_instruktorski = models.CharField(max_length=200,default=n)
+    funkcja = models.CharField(max_length=200,default=n)
+    plec = models.CharField(max_length=200,default=n)
+    organizacja = models.CharField(max_length=200,default=n)
+    skad_jestes = models.CharField(max_length=200,default=n)
+    propozycja_dotyczy = models.CharField(max_length=200,default=n)
+    opis_problemu = models.TextField()
 
 
 class Funkcja(models.Model):

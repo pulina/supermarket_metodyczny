@@ -1,6 +1,6 @@
 from django.http import HttpResponse
 from django.shortcuts import render_to_response, get_object_or_404
-from base.models import Pomysl, Forma, Okres, Blad, Tradycja
+from base.models import Pomysl, Forma, Okres, Blad, Tradycja, Poropozycja
 from django.template import RequestContext
 from django.views.generic.list import ListView
 from django.utils import timezone
@@ -39,10 +39,24 @@ def dodaj(request):
     if request.method == 'POST':
         form = ReCaptchaForm(request.POST)
         if form.is_valid():
-            return render_to_response('base/add_form.html', {'cap': captcha, 'toast': True, 'success': True},
-                                      context_instance=RequestContext(request))
-        else:
-            return render_to_response('base/add_form.html', {'cap': captcha, 'toast': True, 'success': False},
+            try:
+                newprop = Poropozycja()
+                newprop.nick = request.POST['nick']
+                newprop.email = request.POST['email']
+                newprop.stopien= request.POST['stopien']
+                newprop.funkcja = request.POST['funkcja']
+                newprop.plec = request.POST['plec']
+                newprop.organizacja = request.POST['organizacja']
+                newprop.skad_jestes = request.POST['skad_jestes']
+                newprop.propozycja_dotyczy = request.POST['dotyczy']
+                newprop.opis_problemu = request.POST['opis']
+                newprop.save()
+                return render_to_response('base/add_form.html', {'cap': captcha, 'toast': True, 'success': True},
+                                          context_instance=RequestContext(request))
+            except Exception as e:
+                print e
+                pass
+        return render_to_response('base/add_form.html', {'cap': captcha, 'toast': True, 'success': False},
                                       context_instance=RequestContext(request))
     else:
         return render_to_response('base/add_form.html', {'cap': captcha}, context_instance=RequestContext(request))
