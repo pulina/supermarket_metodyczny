@@ -51,6 +51,7 @@ class Funkcja(models.Model):
 
 class Forma(models.Model):
     nazwa = models.CharField(max_length=200)
+    dodana_przez = models.CharField(max_length=200,default="System")
     opis = models.TextField()
 
     class Meta:
@@ -83,6 +84,8 @@ class Blad(models.Model):
     nazwa = models.CharField(max_length=200)
     opis = models.TextField()
     szkodliwosc = models.CharField(max_length=200, choices=SZKODLIWOSC)
+    dodana_przez = models.CharField(max_length=200,default="System")
+
 
     class Meta:
         verbose_name = 'Błąd'
@@ -98,6 +101,8 @@ class Blad(models.Model):
 class Tradycja(models.Model):
     nazwa = models.CharField(max_length=200)
     opis = models.TextField()
+    dodana_przez = models.CharField(max_length=200,default="System")
+
 
     class Meta:
         verbose_name_plural = 'Tradycje'
@@ -118,6 +123,7 @@ class Pomysl(models.Model):
     zaakceptowany = models.BooleanField()
     forma = models.ManyToManyField(Forma, blank=True, null=True)
     tradycja = models.ManyToManyField(Tradycja, blank=True, null=True)
+    dodana_przez = models.CharField(max_length=200,default="System")
 
     class Meta:
         verbose_name = 'Pomysł'
