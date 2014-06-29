@@ -4,7 +4,7 @@ from base.views import Generic
 from base.models import Pomysl, Forma, Okres, Blad, Tradycja
 
 urlpatterns = patterns('base.views',
-    url(r'^$', 'home', name='home'),
+    url(r'^$', 'oprojekcie', name='about'),
     url(r'^kontakt/$', 'kontakt', name='contact'),
     url(r'^o_projekcie/$', 'oprojekcie', name='about'),
 
