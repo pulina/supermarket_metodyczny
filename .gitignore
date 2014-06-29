@@ -5,3 +5,11 @@
 dist\
 Supermarket_Metodyczny.egg-info\
 supermarketmetodyczny\settings_custom.py
+build\
+.idea/
+Supermarket_Metodyczny.egg-info/
+build/
+dist/
+dump.yaml
+supermarket.db
+supermarketmetodyczny/settings_custom.py
