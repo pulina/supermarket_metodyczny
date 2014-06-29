@@ -2,7 +2,14 @@
 
 body{
     background-color: #c5c078;
+
 }
+#main{
+    background-image: url("/static/img/logo_big.png");
+    background-repeat:no-repeat;
+    background-position:center;
+}
+
 
 .lead ol,il,ul{
 font-size: 21px;
@@ -72,6 +79,13 @@ code {
 #project_logo{
     margin: 1px;
     height: 40px;
+    float: left;;
+}
+#login_div a{
+    float: right;
+    color: black;
+    margin-top: 10px;
+    margin-right: 10px;
 }
 #top_image{
     height: 100px;

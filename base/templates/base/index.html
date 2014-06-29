@@ -25,6 +25,9 @@
         <div id="topbar">
           <div class="container">
             <img src="{% static "img/project_logo.png" %}" alt="project logo" id="project_logo">
+            <div id="login_div">
+              <a href="{% url 'admin:index' %}"/>Rejestracja</a> <a href="{% url 'admin:index' %}"/>Logowanie</a>
+            </div>
           </div>
         </div>
         <div id="topimagebar">
@@ -59,7 +62,9 @@
 
       <!-- Begin page content -->
       <div class="container">
+        <div id="main">
         {% block content %}{% endblock %}
+        </div>
      </div>
      </div>
 
