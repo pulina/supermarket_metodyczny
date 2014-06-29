@@ -1,0 +1,154 @@
+/* ----- GLOBAL ------ */
+
+body{
+    background-color: #c5c078;
+}
+
+.lead ol,il,ul{
+font-size: 21px;
+font-weight: 200;
+line-height: 1.4;
+}
+
+ol{
+font-size: 21px;
+font-weight: 200;
+line-height: 1.4;
+}
+
+a:link,a:hover,a:active,a:focus{
+    color: #333333;
+}
+
+a:visited{
+    color: #101010;
+}
+
+#wrap > .container {
+  padding: 60px 15px 0;
+}
+.container .credit {
+  margin: 20px 0;
+}
+
+#footer > .container {
+  text-align: center;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+
+code {
+  font-size: 80%;
+}
+
+.page-header{
+    border-bottom: 1px solid #000000;
+}
+/* ----- HEADER ------ */
+
+.navbar {
+    color: #ffffff;
+    text-transform: uppercase;
+}
+
+.nav > li > a:hover,
+ .nav > li > a:focus{
+  background-color: #617a58;
+}
+
+.navbar a:link,
+.navbar a:hover,
+.navbar a:active{
+    color: #ffffff;
+}
+.navbar a:visited{
+    color: #e9ece7;
+}
+
+.navbar img{
+    margin: 10px;
+}
+
+#project_logo{
+    margin: 1px;
+    height: 40px;
+}
+#top_image{
+    height: 100px;
+    float: left;
+}
+#top_image2{
+    height: 100px;
+    float: right;
+    margin-right: 20%;
+}
+#topbar{
+     background-color: #c5c078;
+}
+#topimagebar{
+     background-color: #638751;
+}
+#navibar{
+     background-color: #4b6441;
+}
+
+/* ----- FOOTER ------ */
+
+#footer {
+    background-color: #638751;
+}
+.text-muted{
+    color: #ffffff;
+}
+/* ----- DROGA HARCERZA ------ */
+.ramki{
+color: inherit;
+border: 20px;
+margin-top: 50px;
+min-height: 300px;
+}
+
+#wartosc {
+    position:absolute;
+    background-color: #eeeeee;
+z-index: 1;
+}
+
+input[type='range'] {
+		-webkit-appearance: none;
+		background-image: url('/static/img/slider-thumb.png');
+        background-repeat:no-repeat;background-position:center top;
+		border-radius: 5px;
+		box-shadow: inset 0 0 5px #000000;
+		background-color: #000000;
+		height: 10px;
+		vertical-align: middle;
+		margin-top: 50px;
+	}
+
+input[type="range"]::-webkit-slider-thumb{
+    -webkit-appearance: none;
+    background-image: url('/static/img/slider-thumb.png');
+    background-repeat:no-repeat;background-position:center top;
+    opacity: 1;
+    width: 40px;
+    height: 130px;
+    position: relative;
+    top: 0px;
+    z-index: 99;
+ }
+::-moz-range-thumb{
+    background-image: url('/static/img/slider-thumb.png');
+    background-repeat:no-repeat;background-position:center top;
+    width:40px;
+    height:130px;
+}
+::-ms-thumb{
+    background-image: url('/static/img/slider-thumb.png');
+    background-repeat:no-repeat;background-position:center top;
+    width:40px;
+    height:130px;
+    z-index: 9999;
+    display: block;
+    background-color: transparent;
+}

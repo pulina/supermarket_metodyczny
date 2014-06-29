@@ -28,35 +28,4 @@ body {
 -------------------------------------------------- */
 /* Not required for template or sticky footer method. */
 
-#wrap > .container {
-  padding: 60px 15px 0;
-}
-.container .credit {
-  margin: 20px 0;
-}
-
-.ramki{
-color: inherit;
-background-color: #eeeeee;
-border: 20px;
-margin-top: 50px;
-border-color: white;
-border-style: solid;
-min-height: 300px;
-}
-
-#footer > .container {
-  text-align: center;
-  padding-left: 15px;
-  padding-right: 15px;
-}
-
-code {
-  font-size: 80%;
-}
-#wartosc {
-    position:absolute;
-    background-color: #eeeeee;
-z-index: 1;
-}
 
