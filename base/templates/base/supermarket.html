@@ -1,6 +1,7 @@
 {% extends "base/index.html" %}
 {% block title %}Supermarket Metodyczny{% endblock %}
 {% block content %}
+{% load static%}
     <div class="page-header">
         <h1>DROGA HARCERZA</h1>
     </div>
@@ -13,7 +14,7 @@
 -->
 	<!--<input id='suwak' style="width:100%" type="range" value='0' min='0' max='{{max}}' onchange="setLabelPosition(this.value)">--->
     <div style="width:1140px; height:0px;border: 3px solid black;-webkit-border-radius: 3px;-moz-border-radius: 3px;border-radius: 3px; "></div>
-    <div id="elem" style="width:1140px; height:100px;">
+    <div id="elem" style="width:1000px; height:100px;margin-left:auto;margin-right: auto;">
 
     </div>
 
@@ -165,17 +166,34 @@
 {% block scripts %}
 <style>
 .year{
-  border: 1px solid black;
-  width: 50px;
-  float: left;
-  margin: 5px;
-}
-.month{
-  border: 1px solid black;
   width: 100px;
   float: left;
   margin: 5px;
+  text-align:center
 }
+.month{
+  width: 73px;
+  float: left;
+  margin: 5px;
+  text-align:center
+}
+
+.month::before,
+.year::before{
+  background-position:center top;
+  display: block;
+  background-repeat:no-repeat;
+  background-image: url('{% static "img/dot.gif" %}');
+  background-size: 10px 10px;
+  content:"";
+  position:relative;
+  z-index:100;
+  top:-15px;
+  width: 100%;
+  height: 20px;
+}
+
+
 </style>
 <script type="text/javascript">
     var zoom_stage=0;
