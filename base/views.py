@@ -1,6 +1,6 @@
 from django.http import HttpResponse
 from django.shortcuts import render_to_response, get_object_or_404
-from base.models import Pomysl, Forma, Okres, Blad, Tradycja, Poropozycja
+from base.models import Pomysl, Forma, Okres, Blad, Tradycja, Poropozycja, Rok
 from django.template import RequestContext
 from django.views.generic.list import ListView
 from django.utils import timezone
@@ -23,7 +23,7 @@ def home(request):
 
 
 def supermarket(request):
-    data = {'object_list': Okres.objects.all(), 'max': Okres.objects.count() - 1}
+    data = {'okresy': Okres.objects.all(), 'lata': Rok.objects.all()}
     return render_to_response('base/supermarket.html', data)
 
 

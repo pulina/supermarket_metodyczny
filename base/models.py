@@ -63,12 +63,16 @@ class Forma(models.Model):
     def get_absolute_url(self):
         return reverse('forma', args=[self.id])
 
+class Rok(Orderable):
+    nazwa = models.CharField(max_length=200)
+
+    def __unicode__(self):
+        return self.nazwa
 
 class Okres(Orderable):
     nazwa = models.CharField(max_length=200)
     opis = models.TextField()
-    wiek_min = models.IntegerField()
-    wiek_max = models.IntegerField()
+    rok = models.ForeignKey(Rok)
     stopien = models.CharField(max_length=200, choices=STOPNIE)
     funkcja = models.ManyToManyField(Funkcja, blank=True, null=True)
     forma = models.ManyToManyField(Forma, blank=True, null=True)
@@ -77,7 +81,7 @@ class Okres(Orderable):
         verbose_name_plural = 'Okresy'
 
     def __unicode__(self):
-        return self.nazwa
+        return u'{} {}'.format(self.nazwa, self.rok)
 
 
 class Blad(models.Model):
