@@ -1,0 +1,12 @@
+<p class="lead">Propozycja: {{ propozycja.nazwa}}</p>
+<p class="lead">Drużyna: {{ propozycja.druzyna}}</p>
+<p>Opis: {{ propozycja.opis}}</p>
+<p class="lead">Ocena: {{ propozycja.rate}}</p>
+<p>Dodane przez: {{ propozycja.dodana_przez.get_full_name }}</p>
+<p class="lead">Komentarze:</p>
+{% for k in komentarze %}
+        <p>{{k.zawartosc}}<br>
+           Dodany: {{k.data_publikacji}} przez {{k.autor.get_full_name}}<br>
+           Ocena: {{k.ocena}}/10<br>
+        </p>
+{% endfor %}

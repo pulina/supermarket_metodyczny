@@ -1,6 +1,6 @@
 from django.http import HttpResponse
 from django.shortcuts import render_to_response, get_object_or_404
-from base.models import Pomysl, Forma, Okres, Blad, Tradycja, Poropozycja, Rok
+from base.models import Pomysl, Okres, Blad, Tradycja, Rok, Narzedzia
 from django.template import RequestContext
 from django.views.generic.list import ListView
 from django.utils import timezone
@@ -18,8 +18,9 @@ class Generic(ListView):
         context['has_url'] = hasattr(self.model, 'get_absolute_url')
         return context
 
-def home(request):
-    return render_to_response('base/home.html', {})
+
+def oprojekcie(request):
+    return render_to_response('base/about.html', {})
 
 
 def supermarket(request):
@@ -31,80 +32,36 @@ def kontakt(request):
     return render_to_response('base/kontakt.html', {})
 
 
-def dodaj(request):
-    """
-    It is pointless to valid form fields in django. Minimal validation implemented in JS.
-    """
-    captcha = ReCaptchaForm()
-    if request.method == 'POST':
-        form = ReCaptchaForm(request.POST)
-        if form.is_valid():
-            try:
-                newprop = Poropozycja()
-                newprop.nick = request.POST['nick']
-                newprop.email = request.POST['email']
-                newprop.stopien= request.POST['stopien']
-                newprop.funkcja = request.POST['funkcja']
-                newprop.plec = request.POST['plec']
-                newprop.organizacja = request.POST['organizacja']
-                newprop.skad_jestes = request.POST['skad_jestes']
-                newprop.propozycja_dotyczy = request.POST['dotyczy']
-                newprop.opis_problemu = request.POST['opis']
-                newprop.save()
-                return render_to_response('base/add_form.html', {'cap': captcha, 'toast': True, 'success': True},
-                                          context_instance=RequestContext(request))
-            except Exception as e:
-                print e
-                pass
-        return render_to_response('base/add_form.html', {'cap': captcha, 'toast': True, 'success': False},
-                                      context_instance=RequestContext(request))
-    else:
-        return render_to_response('base/add_form.html', {'cap': captcha}, context_instance=RequestContext(request))
-
-
-def ocena(request):
-    return render_to_response('base/home.html', {})
-
-
-def pomysl(request):
-    return render_to_response('base/home.html', {})
-
-
-def pomysl_detal(request, pomysl_pk, raw=False):
-    obj = get_object_or_404(Pomysl, pk=pomysl_pk)
-    if not raw:
-        data = {'pomysl': obj, 'blady': obj.blady.all(), 'tradycje': obj.tradycja.all()}
-        return render_to_response('base/pomysl_detal.html', data)
-    else:
-        return render_to_response('base/pomysl_raw.html', {'pomysl': obj})
-
-
-def formy_dla_okresu(request, okres_pk):
+# ajax part
+def okres_raw(request, okres_pk):
     okres = get_object_or_404(Okres, pk=okres_pk)
-    return render_to_response('base/formy.html', {'forma': okres.forma.all()})
+    data = {'narzedzia': okres.narzedzia.all()}
+    return render_to_response('base/okres_raw.html', data)
 
 
-def tradycja_detal(request, tradycja_pk, raw=False):
-    obj = get_object_or_404(Tradycja, pk=tradycja_pk)
-    if not raw:
-        return render_to_response('base/tradycja_detal.html', {'tradycja': obj})
+def narzedzie_raw(request, narzedzie_pk, cat):
+    narzedzie = get_object_or_404(Narzedzia, pk=narzedzie_pk)
+    if cat == 'latest':
+        obj_list = narzedzie.propozycja_set.instance_of(Pomysl).order_by('-pk')
+    elif cat == 'top_rated':
+        obj_list = sorted(narzedzie.propozycja_set.instance_of(Pomysl).all(), key=lambda a: a.rate)
+    elif cat == 'bugs':
+        obj_list = narzedzie.propozycja_set.instance_of(Blad).order_by('-pk')
+    elif cat == 'tradition':
+        obj_list = narzedzie.propozycja_set.instance_of(Tradycja).order_by('-pk')
     else:
-        return render_to_response('base/tradycja_raw.html', {'tradycja': obj})
+        obj_list = []
+    data = {
+        'cat': cat,
+        'objects': obj_list
+    }
+    return render_to_response('base/narzedzie_raw.html', data)
 
 
-def blad_detal(request, blad_pk, raw=False):
-    obj = get_object_or_404(Blad, pk=blad_pk)
-    if not raw:
-        return render_to_response('base/blad_detal.html', {'blad': obj})
-    else:
-        return render_to_response('base/blad_raw.html', {'blad': obj})
-
-
-def oprojekcie(request):
-    return render_to_response('base/about.html', {})
-
-
-def forma_detal(request, forma_pk):
-    obj = get_object_or_404(Forma, pk=forma_pk)
-    data = {'forma': obj, 'pomysly': obj.pomysl_set.all()}
-    return render_to_response('base/forma_detal.html', data)
+def propozycja_raw(request, obj_pk, obj_class):
+    propozycja = get_object_or_404(obj_class, pk=obj_pk)
+    data = {
+        'propozycja': propozycja,
+        'komentarze': propozycja.komentarz_set.all()
+    }
+    return render_to_response('base/propozycja_raw.html', data)

@@ -2,66 +2,27 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
-
 from orderable.models import Orderable
+from polymorphic.polymorphic_model import PolymorphicModel
+from django.db.models import Avg
 
 
-SZKODLIWOSC = (
-    ('vh', 'bardzo wysoka'),
-    ('h', 'wysoka'),
-    ('m', 'umiarkowana'),
-    ('l', 'niska')
-)
-STOPNIE = (
-    ('bs', u'Bez stopnia'),
-    ('ml', u'Młodzik/Ochotniczka'),
-    ('wyw', u'Wywiadowca/Tropicielka'),
-    ('cw', u'Śamerytanka/Ćwik'),
-    ('ho', u'Harcerz Orli/Wędrowniczka'),
-    ('hr', u'Harcerz/Harcerka Rzeczypospolitej')
-)
-    
-
-class Poropozycja(models.Model):
-    """
-    Why charField for choice option like 'funkcja' ... a lot of my change
-    no sense to prepere choice option.
-    """
-    n="Niewiadomo"
-    nick = models.CharField(max_length=200,default=n)
-    email = models.EmailField(max_length=200,default=n)
-    stopien_instruktorski = models.CharField(max_length=200,default=n)
-    funkcja = models.CharField(max_length=200,default=n)
-    plec = models.CharField(max_length=200,default=n)
-    organizacja = models.CharField(max_length=200,default=n)
-    skad_jestes = models.CharField(max_length=200,default=n)
-    propozycja_dotyczy = models.CharField(max_length=200,default=n)
-    opis_problemu = models.TextField()
-
-
-class Funkcja(models.Model):
+class Narzedzia(models.Model):
     nazwa = models.CharField(max_length=200)
-
-    class Meta:
-        verbose_name_plural = 'Funkcje'
-
-    def __unicode__(self):
-        return self.nazwa
-
-
-class Forma(models.Model):
-    nazwa = models.CharField(max_length=200)
-    dodana_przez = models.CharField(max_length=200,default="System")
     opis = models.TextField()
+    autor = models.ForeignKey(User)
+
 
     class Meta:
-        verbose_name_plural = 'Formy'
+        verbose_name = 'Narzędzie'
+        verbose_name_plural = 'Narzędzia'
 
     def __unicode__(self):
         return self.nazwa
 
     def get_absolute_url(self):
-        return reverse('forma', args=[self.id])
+        return reverse('narzedzia', args=[self.id])
+
 
 class Rok(Orderable):
     nazwa = models.CharField(max_length=200)
@@ -69,13 +30,14 @@ class Rok(Orderable):
     def __unicode__(self):
         return self.nazwa
 
+    class Meta(Orderable.Meta):
+        verbose_name_plural = 'Lata'
+
 class Okres(Orderable):
     nazwa = models.CharField(max_length=200)
     opis = models.TextField()
     rok = models.ForeignKey(Rok)
-    stopien = models.CharField(max_length=200, choices=STOPNIE)
-    funkcja = models.ManyToManyField(Funkcja, blank=True, null=True)
-    forma = models.ManyToManyField(Forma, blank=True, null=True)
+    narzedzia = models.ManyToManyField(Narzedzia, blank=True, null=True)
 
     class Meta(Orderable.Meta):
         verbose_name_plural = 'Okresy'
@@ -83,58 +45,45 @@ class Okres(Orderable):
     def __unicode__(self):
         return u'{} {}'.format(self.nazwa, self.rok)
 
-
-class Blad(models.Model):
+class Propozycja(PolymorphicModel):
     nazwa = models.CharField(max_length=200)
+    druzyna = models.CharField(max_length=200)
+    dodana_przez = models.ForeignKey(User)
     opis = models.TextField()
-    szkodliwosc = models.CharField(max_length=200, choices=SZKODLIWOSC)
-    dodana_przez = models.CharField(max_length=200,default="System")
+    narzedzie = models.ManyToManyField(Narzedzia)
 
+    def __unicode__(self):
+        return self.nazwa
+
+class Blad(Propozycja):
 
     class Meta:
         verbose_name = 'Błąd'
         verbose_name_plural = 'Błędy'
 
-    def __unicode__(self):
-        return self.nazwa
-
     def get_absolute_url(self):
         return reverse('blad', args=[self.id])
 
-
-class Tradycja(models.Model):
-    nazwa = models.CharField(max_length=200)
-    opis = models.TextField()
-    dodana_przez = models.CharField(max_length=200,default="System")
-
+class Tradycja(Propozycja):
 
     class Meta:
         verbose_name_plural = 'Tradycje'
 
-    def __unicode__(self):
-        return self.nazwa
-
     def get_absolute_url(self):
         return reverse('tradycja', args=[self.id])
 
-
-class Pomysl(models.Model):
-    nazwa = models.CharField(max_length=200)
-    zgodnosc_z_metoda = models.BooleanField()
-    skutecznosc_base = models.IntegerField()
-    opis = models.TextField()
-    blady = models.ManyToManyField(Blad, blank=True, null=True)
+class Pomysl(Propozycja):
     zaakceptowany = models.BooleanField()
-    forma = models.ManyToManyField(Forma, blank=True, null=True)
-    tradycja = models.ManyToManyField(Tradycja, blank=True, null=True)
-    dodana_przez = models.CharField(max_length=200,default="System")
+
+    @property
+    def rate(self):
+        # TODO: optymalize - on comment save calculate new rate for pomysl obj and store it in db this will allow us to get top_rated with single query
+        return Komentarz.objects.filter(pomysl=self).aggregate(Avg('ocena'))['ocena__avg']
+
 
     class Meta:
         verbose_name = 'Pomysł'
         verbose_name_plural = 'Pomysły'
-
-    def __unicode__(self):
-        return self.nazwa
 
     def get_absolute_url(self):
         return reverse('pomysl', args=[self.id])
@@ -142,13 +91,14 @@ class Pomysl(models.Model):
 
 class Komentarz(models.Model):
     autor = models.ForeignKey(User)
-    zawartosc = models.CharField(max_length=200)
+    zawartosc = models.TextField()
     data_publikacji = models.DateTimeField('data publikacji')
     pomysl = models.ForeignKey(Pomysl)
     ocena = models.IntegerField()
 
     class Meta:
+        verbose_name = 'Komentarz'
         verbose_name_plural = 'Komentarze'
 
     def __unicode__(self):
-        return '{0} - {1}'.format(self.autor.username, self.zawartosc)
+        return u'{0} - {1}'.format(self.autor.username, self.zawartosc)

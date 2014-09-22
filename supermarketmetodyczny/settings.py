@@ -77,10 +77,10 @@ MIDDLEWARE_CLASSES = (
 )
 
 INSTALLED_APPS = (
-#    'admin_tools',
-#    'admin_tools.theming',
-#    'admin_tools.menu',
-#    'admin_tools.dashboard',
+    # 'admin_tools',
+    #    'admin_tools.theming',
+    #    'admin_tools.menu',
+    #    'admin_tools.dashboard',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -91,7 +91,9 @@ INSTALLED_APPS = (
     'south',
     'orderable',
     'django_js_reverse',
-    'base'
+    'base',
+    'polymorphic',
+    'django.contrib.contenttypes',
 )
 LOGGING = {
     'version': 1,

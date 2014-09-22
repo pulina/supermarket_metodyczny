@@ -1,0 +1,5 @@
+<ul class="prop">
+{% for obj in objects%}
+    <li name="{{ obj.pk }}" class="{{ cat }}">{{ obj.nazwa }} </li>
+{% endfor %}
+</ul>

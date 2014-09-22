@@ -20,18 +20,22 @@
     <br>
     <div id="slider_thumb"></div>
     <div class="row marketing">
-        <div class="col-lg-6 ramki">
-		<p class="lead" id='nazwa'></p>
-		<p class="lead"> <span id='stopien'></span></p>
-		<p class="lead" id='opis'></p>
-		<p class="lead">Możliwe funkcję:</p>
-		<ul id='funkcje'>
-		</ul>
+        <div class="col-lg-2 ramki">
+        <p class="lead" id="okres_name"></p>
+		<p class="lead" >Dostępne narzędzia:</p>
+		<p style='margin: 10px' id='narzedzia'></p>
+        </div>
+        <div class="col-lg-2 ramki">
+		<p class="lead" >Według:</p>
+		<p style='margin: 10px' id='wg'></p>
+        </div>
+        <div class="col-lg-2 ramki">
+		<p class="lead" >Drużyny:</p>
+		<p style='margin: 10px' id='prop'></p>
         </div>
 
-        <div class="col-lg-6 ramki">
-		<p class="lead">Dostępne formy:</p>
-		<p style='margin: 10px' id='formy'></p>
+        <div class="col-lg-6 ramki" id="propozycja">
+
         </div>
       </div>
 {% endblock %}
@@ -146,7 +150,7 @@
       }
       $('.month').click(function(e) {
         setSliderThumb($(this))
-        setLabelPosition($(this).prop('id'))
+        okres_click($(this).prop('id'))
       });
       setSliderThumb($('.month').first())
     }
@@ -220,8 +224,56 @@
          }
          return false;
      });
+
+     function narzedzie_click(event){
+        $("#wg").append("\
+            <ul>\
+                <li name='latest'>Najnowsze</li>\
+                <li name='top_rated'>Najwyżej ocenione</li>\
+                <li name='bugs'>Błędy</li>\
+                <li  name='tradition'>Tradycje</li>\
+            </ul>\
+        ")
+         $('#wg').find('ul').children().click({'okres_id': event.data.okres_id}, narzedzie_cat_click);
+     }
+
+     function propozycja_click(event){
+        switch($(this).attr('class')){
+            case 'bugs':
+                $.get( "raw/bledy/"+$(this).attr('name')+"/", propozycja_ajax_complite)
+                break;
+            case 'tradition':
+                $.get( "raw/tradycja/"+$(this).attr('name')+"/", propozycja_ajax_complite)
+                break;
+            default:
+                $.get( "raw/pomysl/"+$(this).attr('name')+"/", propozycja_ajax_complite)
+        }
+     }
+
+     function propozycja_ajax_complite( data ){
+        $( "#propozycja" ).html( data );
+     }
+
+     function narzedzie_cat_click(event){
+        $.get( "raw/narzedzie/"+event.data.okres_id +"/"+$(this).attr("name")+"/", function( data ) {
+            $( "#prop" ).html( data );
+            $('#prop').find('ul').children().click(propozycja_click);
+        });
+     }
+
+     function okres_click(okres_id) {
+       $('#okres_name').html(etapy[okres_id].repr)
+       $.get( "raw/okres/"+okres_id+"/", function( data ) {
+         $( "#narzedzia" ).html( data );
+         $('ul.okres').children().click({'okres_id': okres_id}, narzedzie_click);
+        });
+     }
+
+
+     /*
     	function setLabelPosition(newValue) {
-    	      document.getElementById("opis").innerHTML=etapy[newValue].opis;
+            newValue--;
+            document.getElementById("opis").innerHTML=etapy[newValue].opis;
             document.getElementById("wiek").innerHTML=etapy[newValue].wiek;
             document.getElementById("stopien").innerHTML=etapy[newValue].stopien;
 
@@ -236,5 +288,6 @@
             }
             $('#formy').load(Urls.supermarket_formy(etapy[newValue].pk));
     	}
+    	*/
     </script>
 	{% endblock %}
