@@ -1,12 +1,17 @@
-<p class="lead">Propozycja: {{ propozycja.nazwa}}</p>
-<p class="lead">Drużyna: {{ propozycja.druzyna}}</p>
-<p>Opis: {{ propozycja.opis}}</p>
-<p class="lead">Ocena: {{ propozycja.rate}}</p>
-<p>Dodane przez: {{ propozycja.dodana_przez.get_full_name }}</p>
-<p class="lead">Komentarze:</p>
+<p style="text-transform: uppercase;">{{ propozycja.nazwa}}</p>
+<ul>
+    <li>Drużyna: <b>{{ propozycja.druzyna}}</b></li>
+    <li>{{ propozycja.opis}}</li>
+    <li>Ocena: <b>{{ propozycja.rate}}</b></li>
+    <li>Dodane przez: <b>{{ propozycja.dodana_przez.get_full_name }}</b></li>
+</ul>
+<br>
+<p>Komentarze:</p>
+<ul>
 {% for k in komentarze %}
-        <p>{{k.zawartosc}}<br>
-           Dodany: {{k.data_publikacji}} przez {{k.autor.get_full_name}}<br>
-           Ocena: {{k.ocena}}/10<br>
-        </p>
+        <li>{{k.zawartosc}}<br>
+           Dodany: <b>{{k.data_publikacji}}</b> przez <b>{{k.autor.get_full_name}}</b><br>
+           Ocena: <b>{{k.ocena}}/10</b><br>
+        </li>
 {% endfor %}
+</ul>

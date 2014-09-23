@@ -21,17 +21,14 @@
     <div id="slider_thumb"></div>
     <div class="row marketing">
         <div class="col-lg-2 ramki">
-        <p class="lead" id="okres_name"></p>
-		<p class="lead" >Dostępne narzędzia:</p>
-		<p style='margin: 10px' id='narzedzia'></p>
+        <p id="okres_name"></p>
+		<p id='narzedzia'></p>
         </div>
         <div class="col-lg-2 ramki">
-		<p class="lead" >Według:</p>
-		<p style='margin: 10px' id='wg'></p>
+		<p id='wg'></p>
         </div>
         <div class="col-lg-2 ramki">
-		<p class="lead" >Drużyny:</p>
-		<p style='margin: 10px' id='prop'></p>
+		<p id='prop'></p>
         </div>
 
         <div class="col-lg-6 ramki" id="propozycja">
@@ -79,7 +76,42 @@
   height: 30px;
 }
 
+.row ul li{
+    list-style-type: none;
+    font-size: 14px;
+}
 
+.row ul{
+    margin: 0px;
+    padding: 0px;
+    -webkit-padding-start: 0px;
+}
+
+.row ul li:hover {
+    font-weight:bold;
+}
+
+p#okres_name{
+    text-align: center;
+    font-size: x-large;
+}
+
+p{
+    text-align: left;
+    font-size: large;
+}
+
+.credit{
+    text-align: center;
+}
+
+#propozycja li{
+    margin-top: 5px;
+}
+
+#propozycja ul li:hover{
+     font-weight:Normal;
+}
 </style>
 <script type="text/javascript">
     var zoom_stage=0;
@@ -226,15 +258,24 @@
      });
 
      function narzedzie_click(event){
-        $("#wg").append("\
+        $("#wg").html("\
+            <p>Filtruj według:</p>\
             <ul>\
                 <li name='latest'>Najnowsze</li>\
                 <li name='top_rated'>Najwyżej ocenione</li>\
+            </ul><br>\
+            <p>Pokrewne:</p>\
+            <ul>\
                 <li name='bugs'>Błędy</li>\
-                <li  name='tradition'>Tradycje</li>\
+                <li name='tradition'>Tradycje</li>\
             </ul>\
         ")
          $('#wg').find('ul').children().click({'okres_id': event.data.okres_id}, narzedzie_cat_click);
+       $('#prop').html('')
+       $('#propozycja').html('')
+       $('#wg').find('ul').find('li[name="latest"]').click()
+       $(this).css("font-weight","Bold");
+       $(this).closest('ul').children().not(this).css("font-weight","Normal");
      }
 
      function propozycja_click(event){
@@ -248,6 +289,8 @@
             default:
                 $.get( "raw/pomysl/"+$(this).attr('name')+"/", propozycja_ajax_complite)
         }
+        $(this).css("font-weight","Bold");
+       $(this).closest('ul').children().not(this).css("font-weight","Normal");
      }
 
      function propozycja_ajax_complite( data ){
@@ -256,38 +299,24 @@
 
      function narzedzie_cat_click(event){
         $.get( "raw/narzedzie/"+event.data.okres_id +"/"+$(this).attr("name")+"/", function( data ) {
-            $( "#prop" ).html( data );
+            $( "#prop" ).html( '<p>Propozcyje drużyn:</p>' + data );
             $('#prop').find('ul').children().click(propozycja_click);
         });
+       $(this).css("font-weight","Bold");
+       $('#wg').find('ul').children().not(this).css("font-weight","Normal");
      }
 
      function okres_click(okres_id) {
-       $('#okres_name').html(etapy[okres_id].repr)
+       $('#okres_name').html(etapy[okres_id-1].repr)
+       $('#prop').html('')
+       $('#propozycja').html('')
+       $('#wg').html('')
+
        $.get( "raw/okres/"+okres_id+"/", function( data ) {
-         $( "#narzedzia" ).html( data );
+         $( "#narzedzia" ).html( '<p>Dostępne narzędzia:</p> '+data );
          $('ul.okres').children().click({'okres_id': okres_id}, narzedzie_click);
         });
      }
 
-
-     /*
-    	function setLabelPosition(newValue) {
-            newValue--;
-            document.getElementById("opis").innerHTML=etapy[newValue].opis;
-            document.getElementById("wiek").innerHTML=etapy[newValue].wiek;
-            document.getElementById("stopien").innerHTML=etapy[newValue].stopien;
-
-            document.getElementById("nazwa").innerHTML=etapy[newValue].nazwa;
-            document.getElementById("funkcje").innerHTML= '';
-            if(etapy[newValue].funkcja.length>=0){
-                for (var x in etapy[newValue].funkcja){
-                    document.getElementById("funkcje").innerHTML+='<li>'+etapy[newValue].funkcja[x]+'</li>';
-                }
-            }else{
-                document.getElementById("funkcje").innerHTML='<li>Brak powiązanych funkcji</li>';
-            }
-            $('#formy').load(Urls.supermarket_formy(etapy[newValue].pk));
-    	}
-    	*/
     </script>
 	{% endblock %}
