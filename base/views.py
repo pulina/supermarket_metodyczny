@@ -45,6 +45,15 @@ def wylogowanie(request):
 def oprojekcie(request):
     return render_to_response('base/about.html', context_instance=RequestContext(request))
 
+def zaproponuj(request):
+    return render_to_response('base/zaproponuj.html', context_instance=RequestContext(request))
+
+def moderuj(request):
+    return render_to_response('base/moderuj.html', context_instance=RequestContext(request))
+
+def oceniaj(request):
+    return render_to_response('base/oceniaj.html', context_instance=RequestContext(request))
+
 
 def supermarket(request):
     data = {'okresy': Okres.objects.all(), 'lata': Rok.objects.all()}
