@@ -2,12 +2,14 @@
 <!DOCTYPE html>
 <html lang="{{ LANGUAGE_CODE|default:"en-us" }}" {% if LANGUAGE_BIDI %}dir="rtl"{% endif %}>
   <head>
+    <meta charset="utf-8">
     <title>{% block title %}{% endblock %}</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="shortcut icon" href="/static/docs-assets/ico/favicon.png">
     <link href="{% static "bootstrap/css/bootstrap.css" %}" rel="stylesheet">
     <link href="{% static "bootstrap/css/sticky-footer-navbar.css" %}" rel="stylesheet">
     <link href="{% static "style.css" %}" rel="stylesheet">
+    <link rel="stylesheet" href="{% static "font-awesome/css/font-awesome.min.css" %}">
     <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css">
     <!--[if lt IE 9]>
       <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
@@ -24,7 +26,12 @@
           <div class="container">
             <img src="{% static "img/project_logo.png" %}" alt="project logo" id="project_logo">
             <div id="login_div">
-              <a href="{% url 'admin:index' %}"/>Rejestracja</a> <a href="{% url 'admin:index' %}"/>Logowanie</a>
+              {% if user.is_authenticated %}
+                 <a href="{% url 'wylogowanie' %}"/>wyloguj</a><a>Witaj {{ user.username }}!</a>
+              {% else %}
+                <a href="{% url 'admin:index' %}"/>Rejestracja</a> <a href="{% url 'logowanie' %}"/>Logowanie</a>
+              {% endif %}
+
             </div>
           </div>
         </div>

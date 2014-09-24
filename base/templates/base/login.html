@@ -1,0 +1,97 @@
+{% extends "base/index.html" %}
+{% block title %}Supermarket Metodyczny{% endblock %}
+{% block content %}
+
+{% if not user.is_authenticated %}
+<style>
+.container .login{
+    min-height:500px;
+}
+.login .row{
+    margin-top:50px;
+}
+.btn-fb{
+    background-color: #3c599f;
+}
+.btn-google {
+    background-color: #dd4b39;
+}
+.btn-fb:hover, .btn-google:hover {
+    color: #9c278e;
+    background-color: white;
+    border: 1px solid #9c278e;
+}
+.btn-fb, .btn-google {
+    width: 229px;
+    height: 24px;
+    border: 0;
+    margin-top: 24px;
+    text-align: left;
+    color: white;
+    font-weight: 700;
+    display: block;
+    margin-left: 66px;
+    font-family: inherit;
+    font-size: inherit;
+    line-height: inherit;
+}
+.btn-fb i, .btn-google i {
+    margin-right: 20px;
+}
+
+.btn {
+    height: 24px;
+    width: 60px;
+    line-height: 24px;
+    padding: 0 10px;
+    border-radius: 0px;
+    border: 0;
+    vertical-align: top;
+    color: white;
+    background-color: #333333;
+}
+input {
+    width: 140px;
+    margin-right: 20px;
+    border: 1px solid silver;
+    height: 24px;
+}
+</style>
+<div class="container login">
+    <div class="row">
+        <div class="col-md-4 col-md-offset-4">
+            {% if fail %}
+                <p>Błędny login lub hasło!</p>
+            {% endif %}
+
+        </div>
+    </div>
+    <div class="row" >
+        <div class="col-md-3 col-md-offset-3">
+            <form action="#" method="post">
+            {% csrf_token %}
+            <label>login:</label>
+            <input class="" type="text" value="" name="username">
+        </div>
+        <div class="col-md-5">
+            <label>hasło:</label>
+            <input class="" type="password" value="" name="password">
+            <button type="submit" class="btn btn-default">zaloguj</button>
+            <button type="button" class="btn-fb" onclick="alert('Aktualnie ta funkcionalność nie jest dostępna')"><i class="fa fa-facebook"></i>zaloguj się przez facebook</button>
+            <button type="button" class="btn-google" onclick="alert('Aktualnie ta funkcionalność nie jest dostępna')"><i class="fa fa-google"></i>zaloguj się przez google</button>
+            </form>
+        </div>
+    </div>
+</div>
+{% else %}
+<div class="container">
+    <div class="row">
+        <div class="col-md-3 col-md-offset-2">
+            <p>
+                Jesteś zalogowany!
+            </p>
+        </div>
+    </div>
+</div>
+{% endif %}
+{% endblock %}

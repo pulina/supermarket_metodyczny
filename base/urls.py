@@ -5,6 +5,8 @@ from base.models import Pomysl, Okres, Blad, Tradycja
 
 urlpatterns = patterns('base.views',
     url(r'^$', 'oprojekcie', name='about'),
+    url(r'^wylogowanie/$', 'wylogowanie', name='wylogowanie'),
+    url(r'^logowanie/$', 'logowanie', name='logowanie'),
     url(r'^kontakt/$', 'kontakt', name='contact'),
     url(r'^o_projekcie/$', 'oprojekcie', name='about'),
     url(r'^supermarket/$', 'supermarket', name='supermarket'),
