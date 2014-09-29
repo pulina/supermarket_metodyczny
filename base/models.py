@@ -11,6 +11,7 @@ class Narzedzia(models.Model):
     nazwa = models.CharField(max_length=200)
     opis = models.TextField()
     autor = models.ForeignKey(User)
+    zaakceptowany = models.BooleanField()
 
 
     class Meta:
@@ -51,6 +52,7 @@ class Propozycja(PolymorphicModel):
     dodana_przez = models.ForeignKey(User)
     opis = models.TextField()
     narzedzie = models.ManyToManyField(Narzedzia)
+    zaakceptowany = models.BooleanField()
 
     def __unicode__(self):
         return self.nazwa
@@ -73,7 +75,6 @@ class Tradycja(Propozycja):
         return reverse('tradycja', args=[self.id])
 
 class Pomysl(Propozycja):
-    zaakceptowany = models.BooleanField()
 
     @property
     def rate(self):
@@ -93,7 +94,7 @@ class Komentarz(models.Model):
     autor = models.ForeignKey(User)
     zawartosc = models.TextField()
     data_publikacji = models.DateTimeField('data publikacji')
-    pomysl = models.ForeignKey(Pomysl)
+    propozycja = models.ForeignKey(Propozycja)
     ocena = models.IntegerField()
 
     class Meta:

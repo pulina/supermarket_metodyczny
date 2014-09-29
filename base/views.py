@@ -5,9 +5,16 @@ from django.contrib.auth import authenticate, login, logout
 from django.template import RequestContext
 from django.views.generic.list import ListView
 from django.http import HttpResponseRedirect
-from django.utils import timezone
+from django.contrib.auth.models import Group
+from base.forms import PropozycjaForm
 from django import forms
 from recaptchawidget.fields import ReCaptchaField
+from django.contrib.auth.decorators import login_required, user_passes_test
+
+
+def is_moderator(user):
+    moderator_group = Group.objects.get_or_create(name='Edytor')
+    return moderator_group in user.group
 
 
 class ReCaptchaForm(forms.Form):
@@ -45,14 +52,25 @@ def wylogowanie(request):
 def oprojekcie(request):
     return render_to_response('base/about.html', context_instance=RequestContext(request))
 
+
+@login_required
 def zaproponuj(request):
-    return render_to_response('base/zaproponuj.html', context_instance=RequestContext(request))
+    data = {'form': PropozycjaForm()}
+    return render_to_response('base/zaproponuj.html', data, context_instance=RequestContext(request))
 
+
+@login_required
+@user_passes_test(is_moderator)
 def moderuj(request):
-    return render_to_response('base/moderuj.html', context_instance=RequestContext(request))
+    data = {}
+    return render_to_response('base/moderuj.html', data, context_instance=RequestContext(request))
 
+
+@login_required
+@user_passes_test(is_moderator)
 def oceniaj(request):
-    return render_to_response('base/oceniaj.html', context_instance=RequestContext(request))
+    data = {}
+    return render_to_response('base/oceniaj.html', data, context_instance=RequestContext(request))
 
 
 def supermarket(request):
