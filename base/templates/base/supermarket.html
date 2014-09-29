@@ -270,7 +270,7 @@ p{
                 <li name='tradition'>Tradycje</li>\
             </ul>\
         ")
-         $('#wg').find('ul').children().click({'okres_id': event.data.okres_id}, narzedzie_cat_click);
+         $('#wg').find('ul').children().click({'narzedzie': $(this).attr('name')}, narzedzie_cat_click);
        $('#prop').html('')
        $('#propozycja').html('')
        $('#wg').find('ul').find('li[name="latest"]').click()
@@ -298,7 +298,7 @@ p{
      }
 
      function narzedzie_cat_click(event){
-        $.get( "raw/narzedzie/"+event.data.okres_id +"/"+$(this).attr("name")+"/", function( data ) {
+        $.get( "raw/narzedzie/"+event.data.narzedzie +"/"+$(this).attr("name")+"/", function( data ) {
             $( "#prop" ).html( '<p>Propozcyje drużyn:</p>' + data );
             $('#prop').find('ul').children().click(propozycja_click);
         });

@@ -11,7 +11,7 @@ class Narzedzia(models.Model):
     nazwa = models.CharField(max_length=200)
     opis = models.TextField()
     autor = models.ForeignKey(User)
-    zaakceptowany = models.BooleanField()
+    zaakceptowany = models.BooleanField(default=False)
 
 
     class Meta:
@@ -52,7 +52,7 @@ class Propozycja(PolymorphicModel):
     dodana_przez = models.ForeignKey(User)
     opis = models.TextField()
     narzedzie = models.ManyToManyField(Narzedzia)
-    zaakceptowany = models.BooleanField()
+    zaakceptowany = models.BooleanField(default=False)
 
     def __unicode__(self):
         return self.nazwa
@@ -79,7 +79,7 @@ class Pomysl(Propozycja):
     @property
     def rate(self):
         # TODO: optymalize - on comment save calculate new rate for pomysl obj and store it in db this will allow us to get top_rated with single query
-        return Komentarz.objects.filter(pomysl=self).aggregate(Avg('ocena'))['ocena__avg']
+        return Komentarz.objects.filter(propozycja=self).aggregate(Avg('ocena'))['ocena__avg']
 
 
     class Meta:

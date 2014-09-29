@@ -1,3 +1,4 @@
+# -*- coding: UTF-8 -*-
 from django.http import HttpResponse
 from django.shortcuts import render_to_response, get_object_or_404
 from base.models import Pomysl, Okres, Blad, Tradycja, Rok, Narzedzia
@@ -10,6 +11,8 @@ from base.forms import PropozycjaForm
 from django import forms
 from recaptchawidget.fields import ReCaptchaField
 from django.contrib.auth.decorators import login_required, user_passes_test
+from django.forms import ValidationError
+from django.db import transaction
 
 
 def is_moderator(user):
@@ -55,7 +58,53 @@ def oprojekcie(request):
 
 @login_required
 def zaproponuj(request):
-    data = {'form': PropozycjaForm()}
+    data = {}
+
+    if request.method == 'POST':
+        form = PropozycjaForm(request.POST)
+        if form.is_valid():
+            with transaction.atomic():
+                try:
+                    success = True
+                    print form.cleaned_data
+                    narzedzie = form.cleaned_data['narzedzie']
+                    if not narzedzie or narzedzie == '':
+                        narzedzie_opis = form.cleaned_data['narzedzie_opis']
+                        narzedzie_nazwa = form.cleaned_data['narzedzie_nazwa']
+                        if narzedzie_opis and narzedzie_nazwa:
+                            narzedzie = Narzedzia.objects.create(autor=request.user, opis=narzedzie_opis,
+                                                                 nazwa=narzedzie_nazwa)
+                            form.cleaned_data['narzedzie_okres'].narzedzia.add(narzedzie)
+                        else:
+                            raise ValidationError('narzedzie_opis or narzedzie_nazwa has empty value')
+                    model = form.cleaned_data['model']
+                    create_dict = {
+                        'pomysl': form.cleaned_data['pomysl'],
+                        'nazwa': form.cleaned_data['nazwa'],
+                        'druzyna': form.cleaned_data['druzyna'],
+                        'opis': form.cleaned_data['opis'],
+                        'dodana_przez': request.user,
+                    }
+                    if model == u'Pomysł':
+                        create_dict.pop('pomysl')
+                        obj = Pomysl.objects.create(**create_dict)
+                    elif model == 'Błąd':
+                        obj = Blad.objects.create(**create_dict)
+                    elif model == u'Tradycja':
+                        obj = Tradycja.objects.create(**create_dict)
+                    obj.narzedzie.add(narzedzie)
+                    form = PropozycjaForm()
+                except:
+                    import sys, traceback
+
+                    traceback.print_exc(file=sys.stdout)
+                    success = False
+        else:
+            success = False
+        data['success'] = success
+    else:
+        form = PropozycjaForm()
+    data['form'] = form
     return render_to_response('base/zaproponuj.html', data, context_instance=RequestContext(request))
 
 
@@ -85,20 +134,20 @@ def kontakt(request):
 # ajax part
 def okres_raw(request, okres_pk):
     okres = get_object_or_404(Okres, pk=okres_pk)
-    data = {'narzedzia': okres.narzedzia.all()}
+    data = {'narzedzia': okres.narzedzia.filter(zaakceptowany=True).all()}
     return render_to_response('base/okres_raw.html', data, context_instance=RequestContext(request))
 
 
 def narzedzie_raw(request, narzedzie_pk, cat):
     narzedzie = get_object_or_404(Narzedzia, pk=narzedzie_pk)
     if cat == 'latest':
-        obj_list = narzedzie.propozycja_set.instance_of(Pomysl).order_by('-pk')
+        obj_list = narzedzie.propozycja_set.filter(zaakceptowany=True).instance_of(Pomysl).order_by('-pk')
     elif cat == 'top_rated':
-        obj_list = sorted(narzedzie.propozycja_set.instance_of(Pomysl).all(), key=lambda a: a.rate)
+        obj_list = sorted(narzedzie.propozycja_set.filter(zaakceptowany=True).instance_of(Pomysl).all(), key=lambda a: a.rate)
     elif cat == 'bugs':
-        obj_list = narzedzie.propozycja_set.instance_of(Blad).order_by('-pk')
+        obj_list = narzedzie.propozycja_set.filter(zaakceptowany=True).instance_of(Blad).order_by('-pk')
     elif cat == 'tradition':
-        obj_list = narzedzie.propozycja_set.instance_of(Tradycja).order_by('-pk')
+        obj_list = narzedzie.propozycja_set.filter(zaakceptowany=True).instance_of(Tradycja).order_by('-pk')
     else:
         obj_list = []
     data = {
