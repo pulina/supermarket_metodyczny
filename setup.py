@@ -11,13 +11,13 @@ setup(
     install_requires=(
         'django>=1.6,<1.7',
         'south',
-	'pyyaml',
-    'django-polymorphic',
+        'pyyaml',
+        'django-polymorphic',
         'django-admin-tools',
         'django-orderable',
         'django-js-reverse',
         'recaptcha-client',
-	'mysql-python'
+	    'mysql-python'
     ),
     packages=find_packages(),
     include_package_data=True,
