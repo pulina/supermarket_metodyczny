@@ -1,7 +1,7 @@
 # -*- coding: UTF-8 -*-
 from django.http import HttpResponse
 from django.shortcuts import render_to_response, get_object_or_404
-from base.models import Pomysl, Okres, Blad, Tradycja, Rok, Narzedzia
+from base.models import Pomysl, Okres, Blad, Tradycja, Rok, Narzedzia, Propozycja
 from django.contrib.auth import authenticate, login, logout
 from django.template import RequestContext
 from django.views.generic.list import ListView
@@ -79,20 +79,18 @@ def zaproponuj(request):
                             raise ValidationError('narzedzie_opis or narzedzie_nazwa has empty value')
                     model = form.cleaned_data['model']
                     create_dict = {
-                        'pomysl': form.cleaned_data['pomysl'],
+                        'narzedzie': narzedzie,
                         'nazwa': form.cleaned_data['nazwa'],
                         'druzyna': form.cleaned_data['druzyna'],
                         'opis': form.cleaned_data['opis'],
                         'dodana_przez': request.user,
                     }
                     if model == u'Pomysł':
-                        create_dict.pop('pomysl')
                         obj = Pomysl.objects.create(**create_dict)
-                    elif model == 'Błąd':
+                    elif model == u'Błąd':
                         obj = Blad.objects.create(**create_dict)
                     elif model == u'Tradycja':
                         obj = Tradycja.objects.create(**create_dict)
-                    obj.narzedzie.add(narzedzie)
                     form = PropozycjaForm()
                 except:
                     import sys, traceback
@@ -111,7 +109,10 @@ def zaproponuj(request):
 @login_required
 @user_passes_test(is_moderator)
 def moderuj(request):
-    data = {}
+    if request.method == 'POST':
+        do_zaakceptowania = request.POST.getlist('accept', [])
+        Propozycja.objects.filter(pk__in=do_zaakceptowania).update(zaakceptowany=True)
+    data = {'proposal': Propozycja.objects.filter(zaakceptowany=False)}
     return render_to_response('base/moderuj.html', data, context_instance=RequestContext(request))
 
 
@@ -143,7 +144,8 @@ def narzedzie_raw(request, narzedzie_pk, cat):
     if cat == 'latest':
         obj_list = narzedzie.propozycja_set.filter(zaakceptowany=True).instance_of(Pomysl).order_by('-pk')
     elif cat == 'top_rated':
-        obj_list = sorted(narzedzie.propozycja_set.filter(zaakceptowany=True).instance_of(Pomysl).all(), key=lambda a: a.rate)
+        obj_list = sorted(narzedzie.propozycja_set.filter(zaakceptowany=True).instance_of(Pomysl).all(),
+                          key=lambda a: a.rate)
     elif cat == 'bugs':
         obj_list = narzedzie.propozycja_set.filter(zaakceptowany=True).instance_of(Blad).order_by('-pk')
     elif cat == 'tradition':

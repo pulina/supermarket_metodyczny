@@ -50,12 +50,22 @@ class Propozycja(PolymorphicModel):
     nazwa = models.CharField(max_length=200)
     druzyna = models.CharField(max_length=200)
     dodana_przez = models.ForeignKey(User)
+    _autor = models.CharField(max_length=255, blank=True, null=True)
     opis = models.TextField()
-    narzedzie = models.ManyToManyField(Narzedzia)
+    narzedzie = models.ForeignKey(Narzedzia)
     zaakceptowany = models.BooleanField(default=False)
 
     def __unicode__(self):
         return self.nazwa
+
+    @property
+    def autor(self):
+        return self._autor or self.dodana_przez
+
+    @autor.setter
+    def autor_setter(self, value):
+        # XXX: Does not save obj
+        self._autor = value
 
 class Blad(Propozycja):
 

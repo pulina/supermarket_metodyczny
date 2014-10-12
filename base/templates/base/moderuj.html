@@ -2,44 +2,155 @@
 {% block title %}Supermarket Metodyczny{% endblock %}
 {% load staticfiles %}
 {% block content %}
+    <style>
+
+        .proposal .desc{
+            text-align: justify;
+        }
+
+        .proposal_table th,
+        .proposal_table td{
+            text-align: center;
+            vertical-align: text-top;
+        }
+
+        .proposal_table{
+            margin-top: 40px;
+            margin-bottom: 20px;
+        }
+
+        .proposal_table tr{
+            border-bottom: 1px solid rgb(131, 131, 131);
+        }
+
+        .proposal_submit{
+            margin: 20px;
+            text-align: right;
+        }
+        .proposal{
+            min-height: 500px;
+        }
+
+        .proposal input{
+            line-height: normal;
+            width: 25%;
+            margin-right: 20px;
+            border: 1px solid silver;
+            border: 1px solid #333333;
+            color: white;
+            padding: 10px;
+            background-color: #4b6441;
+        }
+        input[type=checkbox] {
+            visibility: hidden;
+        }
+        .checkboxThree {
+            width: 80px;
+            height: 25px;
+            background: #4b6441;
+            margin: 5px;
+
+            border-radius: 50px;
+            position: relative;
+        }
+
+        .checkboxThree:before {
+            content: 'On';
+            position: absolute;
+            top: 3px;
+            left: 13px;
+            height: 2px;
+            color: #c5c078;
+            font-size: 16px;
+        }
+        .checkboxThree:after {
+            content: 'Off';
+            position: absolute;
+            top: 3px;
+            left: 50px;
+            height: 2px;
+            color: #638751;
+            font-size: 16px;
+        }
+
+        .checkboxThree label {
+            display: block;
+            width: 42px;
+            height: 19px;
+            border-radius: 50px;
+
+            -webkit-transition: all .5s ease;
+            -moz-transition: all .5s ease;
+            -o-transition: all .5s ease;
+            -ms-transition: all .5s ease;
+            transition: all .5s ease;
+            cursor: pointer;
+            position: absolute;
+            top: 3px;
+            z-index: 1;
+            left: 3px;
+            background: #638751;
+        }
+
+        .checkboxThree input[type=checkbox]:checked + label {
+            left: 35px;
+            background: #c5c078;
+        }
+
+    </style>
     <div class="page-header">
-        <h1>O PROJEKCIE</h1>
+        <h1>AKCEPTOWANIE PROPOZYCJI</h1>
     </div>
-    <div>
-        <p class="lead">
-Od czerwca ubiegłego roku w Organizacji Harcerzy ZHR prowadzony jest . Pomysł
-podjęcia tej inicjatywy wzięł się z potrzeb obecnych i byłych drużynowych, ich obserwacji i wniosków:
-· Drużynowi dzielę się wiedzę i pomysłami w swoim środowisku, na kursach, w kuluarach różnych spotkań, ale ich
-doświadczenia zostaję tam, gdzie zostały zdobyte; nikt inny z nich nie korzysta, nie ma szerokiej płaszczyzny wymiany doświadczeń
-między drużynowymi.
-          <ul>
-            <li>Instruktorzy popełniaję błędy, które ktoś już wcześniej popełnił, bo nie podsumowuje się prowadzonej pracy.</li>
-            <li>Stosowane narzędzia często sę nieatrakcyjne i nieskuteczne.</li>
-            <li>Każdy z nas zna rozmaite sposoby rozwięzywania problemów wychowawczych (np. jak zmotywować harcerza, który nie
-chce się rozwijać, do wyboru sprawności i zdobycia jej), ale niemabazy opisujęcej je.</li>
-            <li>Drużynowi często robią coś, bo ktośe wcześeniej to robił, co powoduje, że nie uwzględnia się wymiaru wychowawczego w
-podejmowanych działaniach.</li>
-          </ul>
-        </p>
-        <h3>ZAŁOŻENIA SUPERMARKETU METODYCZNEGO:</h3>
-         <p class="lead" >
-        <ol type="rodzaj numeracji">
-<li>Wsparcie metodyczne drużynowych, czyli:
-  <ul>
-    <li>stworzenie bazy pomysłów metodycznych (formy, techniki, patenty) zbieranych podczas kursów instruktorskich,
-a następnie uporzędkowanie ich w oparciu o tzw. Drogę Harcerza;</li>
-    <li>podjęcie przez instruktorów dyskursu w ramach prowadzonych na kursach i zbiórkach instruktorskich zajęć, także
-poprzez „Supermarket” czy wymianę opinii w Internecie (Ruch doskonalenia metodycznego);</li>
-    <li>konsultacja metodyczna stosowanych narzędzi poprzez wystawiane komentarze i oceny metodyczne konsultantów.</li>
-  </ul>
-</li>
-<li>Narzędzie wychowawcze dla instruktorów: osoby zaangażowane w pracę zespołu (przewodnicy) maję szansę zdobyć
-doświadczenie i kompetencje, które wykorzystają w swoich macierzystych choręgwiach.</li>
-<li>Supermarket ma być permanentnym kursem drużynowych, jego zadaniem jest pomóc uporządkować wiedzę
-drużynowych na kursach metodycznych i w przestrzeni internetowej oraz doskonalić ich warsztat pracy.</li>
-          <li>„Supermarket metodyczny” pomyślany jest jako szkielet kursów instruktorskich to szansa na uporzędkowane
-kształcenie drużynowych, z którego powstanie materiał majęcy przełożenie na pozostałe drużyny wcałej Organizacji.</li>
-</ol>
- </p>
-      </div>
+    <form action="#" method="POST">
+        {% csrf_token %}
+        <div class="proposal">
+            <table class="proposal_table">
+                <col width="10%">
+                <col width="10%">
+                <col width="10%">
+                <col width="10%">
+                <col width="40%">
+                <col width="10%">
+                <col width="10%">
+                <thead>
+                    <tr>
+                        <th>Nazwa</th>
+                        <th>Drużyna</th>
+                        <th>Dodana Przez</th>
+                        <th>Autor</th>
+                        <th>Opis</th>
+                        <th>Narzedzie</th>
+                        <th>Zaakceptuj</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for prop in proposal %}
+                    <tr>
+                        <td>{{prop.nazwa}}</td>
+                        <td>{{prop.druzyna}}</td>
+                        <td>{{prop.dodana_przez}}</td>
+                        <td>{{prop.autor}}</td>
+                        <td class="desc">{{prop.opis}}</td>
+                        <td>{{prop.narzedzie}}</td>
+                        <td>
+                             <div class="checkboxThree">
+                                <input type="checkbox" name="accept" value="{{prop.pk}}" id="accept_{{prop.pk}}">
+                                <label for="accept_{{prop.pk}}"></label>
+                            </div>
+                        </td>
+                    </tr>
+                {% empty %}
+                    <tr>
+                        <td colspan="7"> Brak niezaakceptowanych propozycji... </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+            <div class="proposal_submit">
+             {% if proposal|length  > 0 %}
+                <input type="submit" value="Zaakceptuj wybrane">
+            {% endif %}
+            </div>
+        </div>
+    </form>
 {% endblock %}
