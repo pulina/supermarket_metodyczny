@@ -10,7 +10,8 @@ from django.db.models import Avg
 class Narzedzia(models.Model):
     nazwa = models.CharField(max_length=200)
     opis = models.TextField()
-    autor = models.ForeignKey(User)
+    dodana_przez = models.ForeignKey(User)
+    _autor = models.CharField(max_length=255, blank=True, null=True)
     zaakceptowany = models.BooleanField(default=False)
 
 
@@ -24,6 +25,17 @@ class Narzedzia(models.Model):
     def get_absolute_url(self):
         return reverse('narzedzia', args=[self.id])
 
+    @property
+    def autor(self):
+        return self._autor or self.dodana_przez
+
+    @autor.setter
+    def autor_setter(self, value):
+        # XXX: Does not save obj
+        if isinstance(User, value):
+            self.dodana_przez = value
+        else:
+            self._autor = value
 
 class Rok(Orderable):
     nazwa = models.CharField(max_length=200)
@@ -65,7 +77,10 @@ class Propozycja(PolymorphicModel):
     @autor.setter
     def autor_setter(self, value):
         # XXX: Does not save obj
-        self._autor = value
+        if isinstance(User, value):
+            self.dodana_przez = value
+        else:
+            self._autor = value
 
 class Blad(Propozycja):
 
