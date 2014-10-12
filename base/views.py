@@ -16,8 +16,8 @@ from django.db import transaction
 
 
 def is_moderator(user):
-    moderator_group = Group.objects.get_or_create(name='Edytor')
-    return moderator_group in user.group
+    moderator_group, created = Group.objects.get_or_create(name='Edytor')
+    return moderator_group in user.groups.all()
 
 
 class ReCaptchaForm(forms.Form):

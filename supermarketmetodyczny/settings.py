@@ -125,6 +125,10 @@ ADMIN_TOOLS_APP_INDEX_DASHBOARD = 'supermarketmetodyczny.dashboard.CustomAppInde
 
 ORDERABLE_ORDER_EDITABLE = False
 
+LOGIN_REDIRECT_URL = '/'
+LOGIN_URL = '/logowanie/'
+LOGOUT_URL = '/wylogowanie/'
+
 try:
     from prod_settings import *
 except ImportError:
