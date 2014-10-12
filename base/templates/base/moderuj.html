@@ -3,6 +3,9 @@
 {% load staticfiles %}
 {% block content %}
     <style>
+        .proposal_error_tr{
+            border: 2px solid red !important;
+        }
 
         .proposal .desc{
             text-align: justify;
@@ -104,6 +107,13 @@
             margin: 10px;
             font-style: oblique;
         }
+
+        .proposal_error{
+            color: red;
+            text-align: center;
+            font-size: large;
+        }
+
     </style>
     <div class="page-header">
         <h1>AKCEPTOWANIE PROPOZYCJI</h1>
@@ -111,45 +121,42 @@
     <form action="#" method="POST">
         {% csrf_token %}
         <div class="proposal">
+            {% if zle|length > 0 %}
+            <p class="proposal_error">Próbujesz zaakceptować propozycję które są przypisane do niezakceptowanych narzędzii!</p>
+            {% endif %}
             <table class="proposal_table">
                 <caption>Narzędzia</caption>
                 <col width="10%">
                 <col width="10%">
                 <col width="10%">
-                <col width="10%">
-                <col width="40%">
-                <col width="10%">
+                <col width="60%">
                 <col width="10%">
                 <thead>
                     <tr>
                         <th>Nazwa</th>
-                        <th>Drużyna</th>
                         <th>Dodana Przez</th>
                         <th>Autor</th>
                         <th>Opis</th>
-                        <th>Narzedzie</th>
                         <th>Zaakceptuj</th>
                     </tr>
                 </thead>
                 <tbody>
-                {% for prop in pomysl %}
+                {% for prop in narzedzie %}
                     <tr>
                         <td>{{prop.nazwa}}</td>
-                        <td>{{prop.druzyna}}</td>
                         <td>{{prop.dodana_przez}}</td>
                         <td>{{prop.autor}}</td>
                         <td class="desc">{{prop.opis}}</td>
-                        <td>{{prop.narzedzie}}</td>
                         <td>
                              <div class="checkboxThree">
-                                <input type="checkbox" name="accept" value="{{prop.pk}}" id="accept_{{prop.pk}}">
+                                <input type="checkbox" name="accept_narzedzia" value="{{prop.pk}}" id="accept_{{prop.pk}}">
                                 <label for="accept_{{prop.pk}}"></label>
                             </div>
                         </td>
                     </tr>
                 {% empty %}
                     <tr>
-                        <td colspan="7"> Brak niezaakceptowanych pomysłów... </td>
+                        <td colspan="7"> Brak niezaakceptowanych narzędzi... </td>
                     </tr>
                 {% endfor %}
                 </tbody>
@@ -176,13 +183,13 @@
                 </thead>
                 <tbody>
                 {% for prop in pomysl %}
-                    <tr>
+                    <tr {% if prop.pk in zle %}class="proposal_error_tr"{% endif %}>
                         <td>{{prop.nazwa}}</td>
                         <td>{{prop.druzyna}}</td>
                         <td>{{prop.dodana_przez}}</td>
                         <td>{{prop.autor}}</td>
                         <td class="desc">{{prop.opis}}</td>
-                        <td>{{prop.narzedzie}}</td>
+                        <td>{{prop.narzedzie}}{% if not prop.narzedzie.zaakceptowany %}*{% endif%}</td>
                         <td>
                              <div class="checkboxThree">
                                 <input type="checkbox" name="accept" value="{{prop.pk}}" id="accept_{{prop.pk}}">
@@ -219,13 +226,13 @@
                 </thead>
                 <tbody>
                 {% for prop in blad %}
-                    <tr>
+                    <tr {% if prop.pk in zle %}class="proposal_error_tr"{% endif %}>
                         <td>{{prop.nazwa}}</td>
                         <td>{{prop.druzyna}}</td>
                         <td>{{prop.dodana_przez}}</td>
                         <td>{{prop.autor}}</td>
                         <td class="desc">{{prop.opis}}</td>
-                        <td>{{prop.narzedzie}}</td>
+                        <td>{{prop.narzedzie}}{% if not prop.narzedzie.zaakceptowany %}*{% endif%}</td>
                         <td>
                              <div class="checkboxThree">
                                 <input type="checkbox" name="accept" value="{{prop.pk}}" id="accept_{{prop.pk}}">
@@ -262,7 +269,7 @@
                 </thead>
                 <tbody>
                 {% for prop in tradycja %}
-                    <tr>
+                    <tr {% if prop.pk in zle %}class="proposal_error_tr"{% endif %}>
                         <td>{{prop.nazwa}}</td>
                         <td>{{prop.druzyna}}</td>
                         <td>{{prop.dodana_przez}}</td>

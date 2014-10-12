@@ -109,11 +109,18 @@ def zaproponuj(request):
 @login_required
 @user_passes_test(is_moderator)
 def moderuj(request):
+    zle = []
     if request.method == 'POST':
+        do_zaakceptowania_narzedzia = request.POST.getlist('accept_narzedzia', [])
+        Narzedzia.objects.filter(pk__in=do_zaakceptowania_narzedzia).update(zaakceptowany=True)
         do_zaakceptowania = request.POST.getlist('accept', [])
-        Propozycja.objects.filter(pk__in=do_zaakceptowania).update(zaakceptowany=True)
+        zle = Propozycja.objects.filter(pk__in=do_zaakceptowania, narzedzie__zaakceptowany=False).values_list('id',
+                                                                                                              flat=True)
+        Propozycja.objects.filter(pk__in=do_zaakceptowania).exclude(pk__in=zle).update(zaakceptowany=True)
     not_accepted = Propozycja.objects.filter(zaakceptowany=False)
     data = {
+        'zle': zle,
+        'narzedzie': Narzedzia.objects.filter(zaakceptowany=False),
         'pomysl': not_accepted.instance_of(Pomysl),
         'blad': not_accepted.instance_of(Blad),
         'tradycja': not_accepted.instance_of(Tradycja),
