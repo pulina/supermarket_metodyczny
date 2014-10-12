@@ -27,7 +27,6 @@ class PropozycjaForm(forms.Form):
     narzedzie_okres = forms.ModelChoiceField(queryset=Okres.objects.all(), empty_label=None, label='Okres którego dotyczy narzędzie', required=False)
     narzedzie_nazwa = forms.CharField(label='Nazwa narzędzia', required=False)
     narzedzie_opis = forms.CharField(widget=Textarea, label='Opis narzędzia', required=False)
-    pomysl = forms.ModelChoiceField(queryset=Pomysl.objects.all(), empty_label='', label='Pomysł którego to dotyczy', required=False)
     nazwa = forms.CharField(label='Nazwa propozycji')
     druzyna = forms.CharField(label='Nazwa dużyny')
     opis = forms.CharField(widget=Textarea, label='Opis propozycji')

@@ -15,6 +15,7 @@
         }
 
         .proposal_table{
+            width: 100%;
             margin-top: 40px;
             margin-bottom: 20px;
         }
@@ -97,6 +98,12 @@
             background: #c5c078;
         }
 
+        .proposal caption{
+            font-size: x-large;
+            text-align: left;
+            margin: 10px;
+            font-style: oblique;
+        }
     </style>
     <div class="page-header">
         <h1>AKCEPTOWANIE PROPOZYCJI</h1>
@@ -105,6 +112,7 @@
         {% csrf_token %}
         <div class="proposal">
             <table class="proposal_table">
+                <caption>Narzędzia</caption>
                 <col width="10%">
                 <col width="10%">
                 <col width="10%">
@@ -124,7 +132,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                {% for prop in proposal %}
+                {% for prop in pomysl %}
                     <tr>
                         <td>{{prop.nazwa}}</td>
                         <td>{{prop.druzyna}}</td>
@@ -141,7 +149,136 @@
                     </tr>
                 {% empty %}
                     <tr>
-                        <td colspan="7"> Brak niezaakceptowanych propozycji... </td>
+                        <td colspan="7"> Brak niezaakceptowanych pomysłów... </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+            <table class="proposal_table">
+                <caption>Pomysły</caption>
+                <col width="10%">
+                <col width="10%">
+                <col width="10%">
+                <col width="10%">
+                <col width="40%">
+                <col width="10%">
+                <col width="10%">
+                <thead>
+                    <tr>
+                        <th>Nazwa</th>
+                        <th>Drużyna</th>
+                        <th>Dodana Przez</th>
+                        <th>Autor</th>
+                        <th>Opis</th>
+                        <th>Narzedzie</th>
+                        <th>Zaakceptuj</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for prop in pomysl %}
+                    <tr>
+                        <td>{{prop.nazwa}}</td>
+                        <td>{{prop.druzyna}}</td>
+                        <td>{{prop.dodana_przez}}</td>
+                        <td>{{prop.autor}}</td>
+                        <td class="desc">{{prop.opis}}</td>
+                        <td>{{prop.narzedzie}}</td>
+                        <td>
+                             <div class="checkboxThree">
+                                <input type="checkbox" name="accept" value="{{prop.pk}}" id="accept_{{prop.pk}}">
+                                <label for="accept_{{prop.pk}}"></label>
+                            </div>
+                        </td>
+                    </tr>
+                {% empty %}
+                    <tr>
+                        <td colspan="7"> Brak niezaakceptowanych pomysłów... </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+            <table class="proposal_table">
+                <caption>Błędy</caption>
+                <col width="10%">
+                <col width="10%">
+                <col width="10%">
+                <col width="10%">
+                <col width="40%">
+                <col width="10%">
+                <col width="10%">
+                <thead>
+                    <tr>
+                        <th>Nazwa</th>
+                        <th>Drużyna</th>
+                        <th>Dodana Przez</th>
+                        <th>Autor</th>
+                        <th>Opis</th>
+                        <th>Narzedzie</th>
+                        <th>Zaakceptuj</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for prop in blad %}
+                    <tr>
+                        <td>{{prop.nazwa}}</td>
+                        <td>{{prop.druzyna}}</td>
+                        <td>{{prop.dodana_przez}}</td>
+                        <td>{{prop.autor}}</td>
+                        <td class="desc">{{prop.opis}}</td>
+                        <td>{{prop.narzedzie}}</td>
+                        <td>
+                             <div class="checkboxThree">
+                                <input type="checkbox" name="accept" value="{{prop.pk}}" id="accept_{{prop.pk}}">
+                                <label for="accept_{{prop.pk}}"></label>
+                            </div>
+                        </td>
+                    </tr>
+                {% empty %}
+                    <tr>
+                        <td colspan="7"> Brak niezaakceptowanych błędów... </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+            <table class="proposal_table">
+                <caption>Tradycje</caption>
+                <col width="10%">
+                <col width="10%">
+                <col width="10%">
+                <col width="10%">
+                <col width="40%">
+                <col width="10%">
+                <col width="10%">
+                <thead>
+                    <tr>
+                        <th>Nazwa</th>
+                        <th>Drużyna</th>
+                        <th>Dodana Przez</th>
+                        <th>Autor</th>
+                        <th>Opis</th>
+                        <th>Narzedzie</th>
+                        <th>Zaakceptuj</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for prop in tradycja %}
+                    <tr>
+                        <td>{{prop.nazwa}}</td>
+                        <td>{{prop.druzyna}}</td>
+                        <td>{{prop.dodana_przez}}</td>
+                        <td>{{prop.autor}}</td>
+                        <td class="desc">{{prop.opis}}</td>
+                        <td>{{prop.narzedzie}}</td>
+                        <td>
+                             <div class="checkboxThree">
+                                <input type="checkbox" name="accept" value="{{prop.pk}}" id="accept_{{prop.pk}}">
+                                <label for="accept_{{prop.pk}}"></label>
+                            </div>
+                        </td>
+                    </tr>
+                {% empty %}
+                    <tr>
+                        <td colspan="7"> Brak niezaakceptowanych tradycji... </td>
                     </tr>
                 {% endfor %}
                 </tbody>

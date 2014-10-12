@@ -72,7 +72,7 @@ def zaproponuj(request):
                         narzedzie_opis = form.cleaned_data['narzedzie_opis']
                         narzedzie_nazwa = form.cleaned_data['narzedzie_nazwa']
                         if narzedzie_opis and narzedzie_nazwa:
-                            narzedzie = Narzedzia.objects.create(autor=request.user, opis=narzedzie_opis,
+                            narzedzie = Narzedzia.objects.create(dodana_przez=request.user, opis=narzedzie_opis,
                                                                  nazwa=narzedzie_nazwa)
                             form.cleaned_data['narzedzie_okres'].narzedzia.add(narzedzie)
                         else:
@@ -112,7 +112,12 @@ def moderuj(request):
     if request.method == 'POST':
         do_zaakceptowania = request.POST.getlist('accept', [])
         Propozycja.objects.filter(pk__in=do_zaakceptowania).update(zaakceptowany=True)
-    data = {'proposal': Propozycja.objects.filter(zaakceptowany=False)}
+    not_accepted = Propozycja.objects.filter(zaakceptowany=False)
+    data = {
+        'pomysl': not_accepted.instance_of(Pomysl),
+        'blad': not_accepted.instance_of(Blad),
+        'tradycja': not_accepted.instance_of(Tradycja),
+    }
     return render_to_response('base/moderuj.html', data, context_instance=RequestContext(request))
 
 
