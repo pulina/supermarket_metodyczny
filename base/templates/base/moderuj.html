@@ -114,6 +114,9 @@
             text-align: center;
             font-size: large;
         }
+        .proposal tfoot tr{
+             border: 0px solid silver;
+        }
 
     </style>
     <div class="page-header">
@@ -141,6 +144,20 @@
                         <th>Zaakceptuj</th>
                     </tr>
                 </thead>
+                {% if narzedzie|length  > 0 %}
+                <tfoot>
+                    <tr>
+                        <td colspan="5"></td>
+                        <td>Wszystkie</td>
+                        <td>
+                            <div class="checkboxThree all_check_box ">
+                                <input type="checkbox" id="all_narzedzia" >
+                                <label for="all_narzedzia"></label>
+                            </div>
+                        </td>
+                    </tr>
+                </tfoot>
+                {% endif %}
                 <tbody>
                 {% for prop in narzedzie %}
                     <tr>
@@ -171,6 +188,20 @@
                 <col width="40%">
                 <col width="10%">
                 <col width="10%">
+                {% if pomysl|length  > 0 %}
+                <tfoot>
+                    <tr>
+                        <td colspan="5"></td>
+                        <td>Wszystkie</td>
+                        <td>
+                            <div class="checkboxThree all_check_box ">
+                                <input type="checkbox" id="all_pomysly" >
+                                <label for="all_pomysly"></label>
+                            </div>
+                        </td>
+                    </tr>
+                </tfoot>
+                {% endif %}
                 <thead>
                     <tr>
                         <th>Nazwa</th>
@@ -205,6 +236,7 @@
                 {% endfor %}
                 </tbody>
             </table>
+
             <table class="proposal_table">
                 <caption>Błędy</caption>
                 <col width="10%">
@@ -214,6 +246,20 @@
                 <col width="40%">
                 <col width="10%">
                 <col width="10%">
+                {% if blad|length  > 0 %}
+                 <tfoot>
+                    <tr>
+                        <td colspan="5"></td>
+                        <td>Wszystkie</td>
+                        <td>
+                            <div class="checkboxThree all_check_box ">
+                                <input type="checkbox" id="all_bledy" >
+                                <label for="all_bledy"></label>
+                            </div>
+                        </td>
+                    </tr>
+                </tfoot>
+                {% endif %}
                 <thead>
                     <tr>
                         <th>Nazwa</th>
@@ -257,6 +303,20 @@
                 <col width="40%">
                 <col width="10%">
                 <col width="10%">
+                {% if tradycja|length  > 0 %}
+                <tfoot>
+                    <tr>
+                        <td colspan="5"></td>
+                        <td>Wszystkie</td>
+                        <td>
+                            <div class="checkboxThree all_check_box">
+                                <input type="checkbox" id="all_tradycje" >
+                                <label for="all_tradycje"></label>
+                            </div>
+                        </td>
+                    </tr>
+                </tfoot>
+                {% endif %}
                 <thead>
                     <tr>
                         <th>Nazwa</th>
@@ -298,4 +358,20 @@
             </div>
         </div>
     </form>
+{% endblock %}
+{% block scripts %}
+<script>
+$('.all_check_box input[type=checkbox]').change(function() {
+    console.log('tapczan');
+    $(this).closest('table').find('tbody').find('input[type=checkbox]').prop('checked',$(this).prop('checked'));
+});
+$('input[type=checkbox]').not('.all_check_box input[type=checkbox]').change(function() {
+    console.log('kapcie');
+    if($(this).closest('tbody').find('input[type=checkbox]').not(':checked').length > 0){
+        $(this).closest('table').find('.all_check_box input[type=checkbox]').prop('checked',false);
+    }else{
+        $(this).closest('table').find('.all_check_box input[type=checkbox]').prop('checked',true);
+    }
+});
+</script>
 {% endblock %}
