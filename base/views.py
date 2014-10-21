@@ -115,8 +115,12 @@ def moderuj(request):
         Narzedzia.objects.filter(pk__in=do_zaakceptowania_narzedzia).update(zaakceptowany=True)
         do_zaakceptowania = request.POST.getlist('accept', [])
         zle = Propozycja.objects.filter(pk__in=do_zaakceptowania, narzedzie__zaakceptowany=False).values_list('id',
-                                                                                                              flat=True)
-        Propozycja.objects.filter(pk__in=do_zaakceptowania).exclude(pk__in=zle).update(zaakceptowany=True)
+                                                                                                flat=True)
+        # Propozycja.objects.filter(pk__in=do_zaakceptowania).exclude(pk__in=zle).update(zaakceptowany=True)
+        # Not work with mysql db. django ticket #20300
+        for p in Propozycja.objects.filter(pk__in=do_zaakceptowania).exclude(pk__in=zle):
+            p.zaakceptowany = True
+            p.save()
     not_accepted = Propozycja.objects.filter(zaakceptowany=False)
     data = {
         'zle': zle,
