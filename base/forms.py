@@ -39,5 +39,6 @@ class KomentarzForm(forms.Form):
     ocena = forms.IntegerField(max_value=0, min_value=10)
 
     def __init__(self, *args, **kwargs):
-        super(PropozycjaForm, self).__init__(*args, **kwargs)
-        self.fields['propozycja'].initial = kwargs.get('propozycja')
+        prop = kwargs.pop('propozycja')
+        super(KomentarzForm, self).__init__(*args, **kwargs)
+        self.fields['propozycja'].initial = prop

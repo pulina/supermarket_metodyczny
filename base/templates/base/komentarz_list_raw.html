@@ -1,0 +1,5 @@
+<ul>
+    {% for k in komentarze %}
+        {% include "base/komentarz_raw.html" with komentarz=k %}
+    {% endfor %}
+</ul>

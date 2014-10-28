@@ -1,13 +1,13 @@
 # -*- coding: UTF-8 -*-
 from django.http import HttpResponse
 from django.shortcuts import render_to_response, get_object_or_404
-from base.models import Pomysl, Okres, Blad, Tradycja, Rok, Narzedzia, Propozycja
+from base.models import Pomysl, Okres, Blad, Tradycja, Rok, Narzedzia, Propozycja, Komentarz
 from django.contrib.auth import authenticate, login, logout
 from django.template import RequestContext
 from django.views.generic.list import ListView
 from django.http import HttpResponseRedirect
 from django.contrib.auth.models import Group
-from base.forms import PropozycjaForm
+from base.forms import PropozycjaForm, KomentarzForm
 from django import forms
 from recaptchawidget.fields import ReCaptchaField
 from django.contrib.auth.decorators import login_required, user_passes_test
@@ -173,6 +173,29 @@ def narzedzie_raw(request, narzedzie_pk, cat):
         'objects': obj_list
     }
     return render_to_response('base/narzedzie_raw.html', data, context_instance=RequestContext(request))
+
+
+def komentarz_raw(request, obj_pk=None, prop_pk=None):
+    form = None
+    if request.method == 'POST':
+        form = KomentarzForm(request.POST)
+    else:
+        if prop_pk:
+            form = KomentarzForm(propozycja=get_object_or_404(Propozycja, pk=prop_pk))
+    if obj_pk:
+        if obj_pk == 'nowy':
+            return render_to_response('base/komentarz_form_raw.html', {'form': form, 'prop_pk': prop_pk}, context_instance=RequestContext(request))
+        else:
+            obj = get_object_or_404(Komentarz, pk=obj_pk)
+            return render_to_response('base/komentarz_raw.html', {'komentarz': obj},
+                                      context_instance=RequestContext(request))
+    else:
+        propozycja = request.GET.get('propozycja', None)
+        obj_list = Komentarz.objects.all()
+        if propozycja:
+            obj_list = obj_list.filter(propozycja__pk=propozycja)
+        return render_to_response('base/komentarz_list_raw.html', {'komentarze': obj_list},
+                                  context_instance=RequestContext(request))
 
 
 def propozycja_raw(request, obj_pk, obj_class):
