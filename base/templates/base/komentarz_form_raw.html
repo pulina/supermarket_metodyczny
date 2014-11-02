@@ -1,5 +1,23 @@
 <div class="komenarz_form" >
-   <form action="{% url 'komentarz_raw_nowy' prop_pk %}" method="post">
+   <script>
+    $("#comment_form").submit(function() {
+
+
+
+        $.ajax({
+               type: "POST",
+               url: '{% url 'komentarz_raw_nowy' prop_pk %}',
+               data: $("#comment_form").serialize(),
+               success: function(data)
+               {
+                   $("#comment_form").replaceWith("<p>Komentarz został wysłany</p>")
+               }
+             });
+
+        return false;
+    });
+   </script>
+   <form id="comment_form">
         {% csrf_token %}
         {% for field in form %}
                 {{ field.errors }}

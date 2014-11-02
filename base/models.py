@@ -1,6 +1,6 @@
 # -*- coding: UTF-8 -*-
 from django.db import models
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, Group
 from django.core.urlresolvers import reverse
 from orderable.models import Orderable
 from polymorphic.polymorphic_model import PolymorphicModel
@@ -37,6 +37,7 @@ class Narzedzia(models.Model):
         else:
             self._autor = value
 
+
 class Rok(Orderable):
     nazwa = models.CharField(max_length=200)
 
@@ -45,6 +46,7 @@ class Rok(Orderable):
 
     class Meta(Orderable.Meta):
         verbose_name_plural = 'Lata'
+
 
 class Okres(Orderable):
     nazwa = models.CharField(max_length=200)
@@ -57,6 +59,7 @@ class Okres(Orderable):
 
     def __unicode__(self):
         return u'{} {}'.format(self.nazwa, self.rok)
+
 
 class Propozycja(PolymorphicModel):
     nazwa = models.CharField(max_length=200)
@@ -82,8 +85,8 @@ class Propozycja(PolymorphicModel):
         else:
             self._autor = value
 
-class Blad(Propozycja):
 
+class Blad(Propozycja):
     class Meta:
         verbose_name = 'Błąd'
         verbose_name_plural = 'Błędy'
@@ -91,20 +94,27 @@ class Blad(Propozycja):
     def get_absolute_url(self):
         return reverse('blad', args=[self.id])
 
-class Tradycja(Propozycja):
 
+class Tradycja(Propozycja):
     class Meta:
         verbose_name_plural = 'Tradycje'
 
     def get_absolute_url(self):
         return reverse('tradycja', args=[self.id])
 
-class Pomysl(Propozycja):
 
+class Pomysl(Propozycja):
     @property
     def rate(self):
         # TODO: optymalize - on comment save calculate new rate for pomysl obj and store it in db this will allow us to get top_rated with single query
-        return Komentarz.objects.filter(propozycja=self).aggregate(Avg('ocena'))['ocena__avg']
+        return Komentarz.objects.filter(propozycja=self).aggregate(Avg('ocena'))['ocena__avg'] or u'Brak'
+
+    @property
+    def rate_prof(self):
+        # TODO: optymalize - on comment save calculate new rate for pomysl obj and store it in db this will allow us to get top_rated with single query
+        return  Komentarz.objects.filter(propozycja=self,
+                                     autor__groups__name="Edytor").aggregate(
+                Avg('ocena'))['ocena__avg'] or u'Brak'
 
 
     class Meta:

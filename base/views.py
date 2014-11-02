@@ -13,6 +13,7 @@ from recaptchawidget.fields import ReCaptchaField
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.forms import ValidationError
 from django.db import transaction
+from datetime import datetime
 
 
 def is_moderator(user):
@@ -84,6 +85,7 @@ def zaproponuj(request):
                         'druzyna': form.cleaned_data['druzyna'],
                         'opis': form.cleaned_data['opis'],
                         'dodana_przez': request.user,
+                        '_autor': form.cleaned_data['_autor']
                     }
                     if model == u'Pomysł':
                         obj = Pomysl.objects.create(**create_dict)
@@ -179,6 +181,14 @@ def komentarz_raw(request, obj_pk=None, prop_pk=None):
     form = None
     if request.method == 'POST':
         form = KomentarzForm(request.POST)
+        if form.is_valid() and request.user:
+             Komentarz.objects.create(
+                 autor = request.user,
+                 zawartosc = form.cleaned_data['zawartosc'],
+                 data_publikacji = datetime.now(),
+                 propozycja = form.cleaned_data['propozycja'],
+                 ocena = form.cleaned_data['ocena']
+             )
     else:
         if prop_pk:
             form = KomentarzForm(propozycja=get_object_or_404(Propozycja, pk=prop_pk))
@@ -202,6 +212,7 @@ def propozycja_raw(request, obj_pk, obj_class):
     propozycja = get_object_or_404(obj_class, pk=obj_pk)
     data = {
         'propozycja': propozycja,
-        'komentarze': propozycja.komentarz_set.all()
+        'komentarze': propozycja.komentarz_set.all(),
+        'komentarz_form': KomentarzForm(propozycja=propozycja),
     }
     return render_to_response('base/propozycja_raw.html', data, context_instance=RequestContext(request))

@@ -19,6 +19,12 @@
             color: white;
             background-color: #4b6441;
         }
+
+        #id_autor_prompt{
+            position: relative;
+            top: 10px;
+        }
+
         .propozycja_form select,
         .propozycja_form input{
             height: 24px;
@@ -58,13 +64,16 @@
                         <fieldset id="narzedzie_fieldset">
                             <legend>Narzędzie</legend>
                     {% endif %}
+                    {% if field.id_for_label == 'id__autor'%}
+                             <div id="autor_field">
+                    {% endif %}
                     {{ field.errors }}
                     <div id="{{ field.id_for_label }}"><label for="{{ field.id_for_label }}"> {{ field.label }}:</label>{{ field }}</div>
                     {% if field.id_for_label == 'id_narzedzie_opis'%}
                         </fieldset>
                     {% endif %}
-                    {% if field.id_for_label == 'id_opis'%}
-                        </div>
+                    {% if field.id_for_label == 'id__autor'%}
+                        </div></div>
                     {% endif %}
             {% endfor %}
             <label></label><input type="submit" value="Dodaj" />
@@ -95,5 +104,13 @@
       }
     });
     $('select#id_narzedzie').change()
+    $('input#id_autor_prompt').change(function() {
+      if($(this).is(':checked')){
+        $('#autor_field').slideUp( "slow");
+      }else{
+        $('#autor_field').slideDown( "slow");
+      }
+    });
+    $('input#id_autor_prompt').change()
 </script>
 {% endblock %}

@@ -3,15 +3,17 @@
     <li>Drużyna: <b>{{ propozycja.druzyna}}</b></li>
     <li>{{ propozycja.opis}}</li>
     <li>Ocena: <b>{{ propozycja.rate}}</b></li>
+    <li>Ocena konsultantów: <b>{{ propozycja.rate_prof }}</b></li>
     <li>Dodane przez: <b>{{ propozycja.dodana_przez.get_full_name }}</b></li>
 </ul>
 <br>
 <p>Komentarze:</p>
 <ul>
 {% for k in komentarze %}
-        <li>{{k.zawartosc}}<br>
-           Dodany: <b>{{k.data_publikacji}}</b> przez <b>{{k.autor.get_full_name}}</b><br>
-           Ocena: <b>{{k.ocena}}/10</b><br>
-        </li>
+     {% include 'base/komentarz_raw.html' with komentarz=k %}
 {% endfor %}
 </ul>
+<br>
+{% if user.is_authenticated %}
+        {% include 'base/komentarz_form_raw.html' with form=komentarz_form  prop_pk=propozycja.pk %}
+{% endif %}

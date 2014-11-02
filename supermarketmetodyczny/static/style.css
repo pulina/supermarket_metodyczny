@@ -166,3 +166,19 @@ input[type="range"]::-webkit-slider-thumb{
     display: block;
     background-color: transparent;
 }
+
+#id_zawartosc label,
+#id_ocena label{
+    clear: both;
+    display: block;
+}
+
+#comment_form input[type=submit],
+textarea#id_zawartosc{
+    line-height: normal;
+    margin-right: 20px;
+    border: 1px solid silver;
+    border: 1px solid #333333;
+    color: white;
+    background-color: #4b6441;
+}
