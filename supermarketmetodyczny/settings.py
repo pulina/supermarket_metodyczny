@@ -130,6 +130,10 @@ LOGIN_REDIRECT_URL = '/'
 LOGIN_URL = '/logowanie/'
 LOGOUT_URL = '/wylogowanie/'
 
+SOUTH_MIGRATION_MODULES = {
+        'captcha': 'captcha.south_migrations',
+}
+
 try:
     from prod_settings import *
 except ImportError:
