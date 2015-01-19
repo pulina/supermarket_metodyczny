@@ -182,3 +182,23 @@ textarea#id_zawartosc{
     color: white;
     background-color: #4b6441;
 }
+
+div#capcha_div{
+    width: 25%;
+    display: inline-block;
+}
+
+input#id_captcha_1{
+    width: 71%;
+    margin-left: 8px;
+    margin-right: 0px;
+}
+
+img.captcha{
+    width: 70px;
+}
+
+.errorlist{
+    width: 25%;
+    margin-left: 50%;
+}

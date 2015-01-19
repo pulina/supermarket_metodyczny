@@ -1,5 +1,6 @@
 # -*- coding: UTF-8 -*-
 from django.http import HttpResponse
+from django.contrib.auth.models import User
 from django.shortcuts import render_to_response, get_object_or_404
 from base.models import Pomysl, Okres, Blad, Tradycja, Rok, Narzedzia, Propozycja, Komentarz
 from django.contrib.auth import authenticate, login, logout
@@ -7,7 +8,7 @@ from django.template import RequestContext
 from django.views.generic.list import ListView
 from django.http import HttpResponseRedirect
 from django.contrib.auth.models import Group
-from base.forms import PropozycjaForm, KomentarzForm
+from base.forms import PropozycjaForm, KomentarzForm, RejestracjaForm
 from django import forms
 from recaptchawidget.fields import ReCaptchaField
 from django.contrib.auth.decorators import login_required, user_passes_test
@@ -134,11 +135,30 @@ def moderuj(request):
     return render_to_response('base/moderuj.html', data, context_instance=RequestContext(request))
 
 
-@login_required
-@user_passes_test(is_moderator)
-def oceniaj(request):
+def rejestruj(request):
     data = {}
-    return render_to_response('base/oceniaj.html', data, context_instance=RequestContext(request))
+    if request.method == 'POST':
+        form = RejestracjaForm(request.POST)
+        if form.is_valid():
+            data = {
+                'first_name': form.cleaned_data['imie'],
+                'last_name': form.cleaned_data['nazwisko'],
+                'username': form.cleaned_data['username'],
+                'email': form.cleaned_data['mail'],
+            }
+            try:
+                user = User.objects.create_user(**data)
+                user.set_password(form.cleaned_data['password'])
+                user.is_active = True
+                user.save()
+                data['success'] = True
+            except:
+                errors = form._errors.setdefault("myfield", ErrorList())
+                errors.append(u"Użytkownik już istnieje!")
+    else:
+        form = RejestracjaForm()
+    data['form'] = form
+    return render_to_response('base/rejestruj.html', data, context_instance=RequestContext(request))
 
 
 def supermarket(request):

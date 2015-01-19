@@ -94,6 +94,7 @@ INSTALLED_APPS = (
     'base',
     'polymorphic',
     'django.contrib.contenttypes',
+    'captcha',
 )
 LOGGING = {
     'version': 1,

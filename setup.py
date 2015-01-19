@@ -17,7 +17,8 @@ setup(
         'django-orderable',
         'django-js-reverse',
         'recaptcha-client',
-	    'mysql-python'
+        'mysql-python',
+        'django-simple-captcha'
     ),
     packages=find_packages(),
     include_package_data=True,

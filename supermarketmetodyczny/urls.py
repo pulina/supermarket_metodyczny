@@ -13,5 +13,6 @@ urlpatterns = patterns('',
 #    url(r'^admin_tools/', include('admin_tools.urls')),
     url(r'^admin/', include(admin.site.urls)),
     url(r'^jsreverse/$', cache_page(3600)(urls_js), name='js_reverse'),
+    url(r'^captcha/', include('captcha.urls')),
     url(r'', include('base.urls')),
 )

@@ -31,7 +31,7 @@
               {% if user.is_authenticated %}
                  <a href="{% url 'wylogowanie' %}"/>wyloguj</a><a>Witaj {{ user.username }}!</a>
               {% else %}
-                <a href="{% url 'admin:index' %}"/>Rejestracja</a> <a href="{% url 'logowanie' %}"/>Logowanie</a>
+                <a href="{% url 'rejestruj' %}"/>Rejestracja</a> <a href="{% url 'logowanie' %}"/>Logowanie</a>
               {% endif %}
 
             </div>
@@ -63,9 +63,11 @@
                   {% if request.user|has_group:"Edytor" %}
                   <li><a href="{% url 'moderuj' %}">Moderuj</a></li>
                   {% endif %}
+                  {% comment "Optional note" %}
                   {% if request.user|has_group:"Konsultant" %}
                   <li><a href="{% url 'oceniaj' %}">Oceniaj</a></li>
                   {% endif %}
+                  {% endcomment %}
                 {% endif %}
               </ul>
             </div>
