@@ -62,7 +62,7 @@
        <form action="{% url 'rejestruj' %}" method="post">
             {% csrf_token %}
             {% for field in form %}
-                    <label></label><p class="error">{{ field.errors }}</p>
+                    {{ field.errors }}
                     {% if field.id_for_label == 'id_captcha_1'%}
                         <div id="{{ field.id_for_label }}"><label for="{{ field.id_for_label }}"> {{ field.label }}:</label><div id="capcha_div">{{ field }}</div>
                     {% else %}
@@ -72,7 +72,7 @@
             <label></label><input type="submit" value="Dodaj" />
         </form>
     </div>
-    {% endif }
+    {% endif %}
 
 {% endblock %}
 {% block scripts %}
