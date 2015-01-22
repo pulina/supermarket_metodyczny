@@ -176,6 +176,9 @@ def okres_raw(request, okres_pk):
     data = {'narzedzia': okres.narzedzia.filter(zaakceptowany=True).all()}
     return render_to_response('base/okres_raw.html', data, context_instance=RequestContext(request))
 
+def narzedzie_dsc_raw(request, narzedzie_pk,):
+    narzedzie = get_object_or_404(Narzedzia, pk=narzedzie_pk)
+    return HttpResponse(narzedzie.opis)
 
 def narzedzie_raw(request, narzedzie_pk, cat):
     narzedzie = get_object_or_404(Narzedzia, pk=narzedzie_pk)

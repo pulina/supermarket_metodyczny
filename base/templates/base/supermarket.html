@@ -259,6 +259,7 @@ p{
 
      function narzedzie_click(event){
         $("#wg").html("\
+            <div id='narzedzie_desc'></div><br>\
             <p>Filtruj według:</p>\
             <ul>\
                 <li name='latest'>Najnowsze</li>\
@@ -304,6 +305,9 @@ p{
         });
        $(this).css("font-weight","Bold");
        $('#wg').find('ul').children().not(this).css("font-weight","Normal");
+       $.get( "raw/narzedzie/"+event.data.narzedzie +"/", function( data ) {
+            $( "#narzedzie_desc" ).html( '<p>Opis narzędzia:</p>' + data );
+        });
      }
 
      function okres_click(okres_id) {
