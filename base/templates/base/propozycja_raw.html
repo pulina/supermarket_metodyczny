@@ -4,6 +4,9 @@
     <li>{{ propozycja.opis}}</li>
     <li>Ocena: <b>{{ propozycja.rate}}</b></li>
     <li>Ocena konsultantów: <b>{{ propozycja.rate_prof }}</b></li>
+    {% if propozycja.moment_wystapienia %}
+    <li>Moment wystąpienia: <b>{{ propozycja.moment_wystapienia }}</b></li>
+    {% endif %}
     <li>Dodane przez: <b>{{ propozycja.dodana_przez.get_full_name }}</b></li>
 </ul>
 <br>

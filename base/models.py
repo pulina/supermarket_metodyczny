@@ -69,6 +69,7 @@ class Propozycja(PolymorphicModel):
     opis = models.TextField()
     narzedzie = models.ForeignKey(Narzedzia)
     zaakceptowany = models.BooleanField(default=False)
+    moment_wystapienia = models.CharField(max_length=200, blank=True, null=True)
 
     def __unicode__(self):
         return self.nazwa

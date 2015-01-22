@@ -45,6 +45,7 @@ class PropozycjaForm(forms.Form):
     narzedzie_opis = forms.CharField(widget=Textarea, label='Opis narzędzia', required=False)
     nazwa = forms.CharField(label='Nazwa propozycji')
     druzyna = forms.CharField(label='Nazwa dużyny')
+    moment_wystapienia = forms.CharField(label='Moment wystąpienia')
     opis = forms.CharField(widget=Textarea, label='Opis propozycji')
     autor_prompt = forms.BooleanField(label='Ty jesteś autorem propozycji', initial=True, required=False)
     _autor = forms.CharField(label='Autor propozycji', required=False)

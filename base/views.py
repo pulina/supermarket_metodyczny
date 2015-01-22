@@ -85,6 +85,7 @@ def zaproponuj(request):
                         'nazwa': form.cleaned_data['nazwa'],
                         'druzyna': form.cleaned_data['druzyna'],
                         'opis': form.cleaned_data['opis'],
+                        'moment_wystapienia': form.cleaned_data['moment_wystapienia'],
                         'dodana_przez': request.user,
                         '_autor': form.cleaned_data['_autor']
                     }
