@@ -36,7 +36,7 @@ class PropozycjaForm(forms.Form):
 
 
     )
-    model = forms.ChoiceField(choices=MODEL, label='Co chcesz zaproponować')
+    model = forms.ChoiceField(choices=MODEL, label='Dodaj')
     narzedzie = forms.ModelChoiceField(queryset=Narzedzia.objects.all(), empty_label='Chcę zaproponować nowy',
                                        label='Narzędzie metodyczne', required=False)
     narzedzie_okres = forms.ModelChoiceField(queryset=Okres.objects.all(), empty_label=None,
