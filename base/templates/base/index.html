@@ -58,10 +58,14 @@
                 <li><a href="{% url 'about' %}">O Projekcie</a></li>
                 <li><a href="{% url 'contact' %}">Zespół</a></li>
                 <li><a href="{% url 'supermarket' %}">Droga Harcerza</a></li>
+                <li><a href="{% url 'pomysly' %}">Pomysły</a></li>
                 {% if user.is_authenticated %}
                   <li><a href="{% url 'zaproponuj' %}">Zaproponuj</a></li>
                   {% if request.user|has_group:"Edytor" %}
                   <li><a href="{% url 'moderuj' %}">Moderuj</a></li>
+                  {% endif %}
+                  {% if request.user.is_superuser %}
+                  <li><a href="{% url 'zarzadzaj' %}">Zarządzaj</a></li>
                   {% endif %}
                   {% comment "Optional note" %}
                   {% if request.user|has_group:"Konsultant" %}

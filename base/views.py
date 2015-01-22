@@ -119,7 +119,7 @@ def moderuj(request):
         Narzedzia.objects.filter(pk__in=do_zaakceptowania_narzedzia).update(zaakceptowany=True)
         do_zaakceptowania = request.POST.getlist('accept', [])
         zle = Propozycja.objects.filter(pk__in=do_zaakceptowania, narzedzie__zaakceptowany=False).values_list('id',
-                                                                                                flat=True)
+                                                                                                              flat=True)
         # Propozycja.objects.filter(pk__in=do_zaakceptowania).exclude(pk__in=zle).update(zaakceptowany=True)
         # Not work with mysql db. django ticket #20300
         for p in Propozycja.objects.filter(pk__in=do_zaakceptowania).exclude(pk__in=zle):
@@ -177,9 +177,11 @@ def okres_raw(request, okres_pk):
     data = {'narzedzia': okres.narzedzia.filter(zaakceptowany=True).all()}
     return render_to_response('base/okres_raw.html', data, context_instance=RequestContext(request))
 
-def narzedzie_dsc_raw(request, narzedzie_pk,):
+
+def narzedzie_dsc_raw(request, narzedzie_pk, ):
     narzedzie = get_object_or_404(Narzedzia, pk=narzedzie_pk)
     return HttpResponse(narzedzie.opis)
+
 
 def narzedzie_raw(request, narzedzie_pk, cat):
     narzedzie = get_object_or_404(Narzedzia, pk=narzedzie_pk)
@@ -206,19 +208,20 @@ def komentarz_raw(request, obj_pk=None, prop_pk=None):
     if request.method == 'POST':
         form = KomentarzForm(request.POST)
         if form.is_valid() and request.user:
-             Komentarz.objects.create(
-                 autor = request.user,
-                 zawartosc = form.cleaned_data['zawartosc'],
-                 data_publikacji = datetime.now(),
-                 propozycja = form.cleaned_data['propozycja'],
-                 ocena = form.cleaned_data['ocena']
-             )
+            Komentarz.objects.create(
+                autor=request.user,
+                zawartosc=form.cleaned_data['zawartosc'],
+                data_publikacji=datetime.now(),
+                propozycja=form.cleaned_data['propozycja'],
+                ocena=form.cleaned_data['ocena']
+            )
     else:
         if prop_pk:
             form = KomentarzForm(propozycja=get_object_or_404(Propozycja, pk=prop_pk))
     if obj_pk:
         if obj_pk == 'nowy':
-            return render_to_response('base/komentarz_form_raw.html', {'form': form, 'prop_pk': prop_pk}, context_instance=RequestContext(request))
+            return render_to_response('base/komentarz_form_raw.html', {'form': form, 'prop_pk': prop_pk},
+                                      context_instance=RequestContext(request))
         else:
             obj = get_object_or_404(Komentarz, pk=obj_pk)
             return render_to_response('base/komentarz_raw.html', {'komentarz': obj},
@@ -240,3 +243,18 @@ def propozycja_raw(request, obj_pk, obj_class):
         'komentarz_form': KomentarzForm(propozycja=propozycja),
     }
     return render_to_response('base/propozycja_raw.html', data, context_instance=RequestContext(request))
+
+
+@user_passes_test(lambda u: u.is_superuser)
+def zarzadzaj(request):
+    data = {
+        'users': User.objects.all()
+    }
+    return render_to_response('base/zarzadzaj.html', data, context_instance=RequestContext(request))
+
+
+def pomysly(request):
+    data = {
+        'object_list' : Pomysl.objects.filter(zaakceptowany=True)
+    }
+    return render_to_response('base/pomysly.html', data, context_instance=RequestContext(request))

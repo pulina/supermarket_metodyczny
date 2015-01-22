@@ -1,0 +1,55 @@
+{% extends "base/index.html" %}
+{% block title %}Supermarket Metodyczny{% endblock %}
+{% load staticfiles %}
+{% load group_tools %}
+{% block content %}
+        <div class="page-header">
+          <h1>ZARZĄDZAJ</h1>
+        </div>
+<h3>Lista użytkowników:</h3>
+<table class="proposal_table">
+    <col width="10%">
+    <col width="20%">
+    <col width="20%">
+    <col width="20%">
+    <col width="20%">
+    <col width="10%">
+    <thead>
+        <tr>
+            <th>Lp.</th>
+            <th>Nazwa</th>
+            <th>Imię i Nazwisko</th>
+            <th>Moderator</th>
+            <th>Administrator</th>
+            <th>Usunąćh</th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for user in users %}
+        <tr {% if user.pk in zle %}class="proposal_error_tr"{% endif %}>
+            <td>{{forloop.counter}}</td>
+            <td>{{user.username}}</td>
+            <td>{{user.first_name}} {{user.last_name}}</td>
+            <td>
+                <div class="checkboxThree">
+                    <input type="checkbox" name="accept" value="{{user.pk}}" id="accept_moderator_{{user.pk}}" {% if user|has_group:"Konsultant" %}checked{%endif%}>
+                    <label for="accept_moderator_{{prop.pk}}"></label>
+                </div>
+
+            </td>
+            <td>
+                <div class="checkboxThree">
+                    <input type="checkbox" name="accept" value="{{user.pk}}" id="accept_administrator_{{user.pk}}" {% if user.is_superuser %}checked{%endif%}>
+                    <label for="accept_administrator_{{prop.pk}}"></label>
+                </div>
+            </td>
+            <td>X</td>
+        </tr>
+    {% empty %}
+        <tr>
+            <td colspan="7"> Brak użytkowników więc kim ty jesteś?... </td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+{% endblock %}
