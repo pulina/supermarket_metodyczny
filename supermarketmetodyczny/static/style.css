@@ -246,7 +246,7 @@ img.captcha{
     padding: 10px;
     background-color: #4b6441;
 }
-input[type=checkbox] {
+.checkboxThree input[type=checkbox] {
     visibility: hidden;
 }
 .checkboxThree {
