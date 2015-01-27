@@ -58,7 +58,7 @@
                 <li><a href="{% url 'about' %}">O Projekcie</a></li>
                 <li><a href="{% url 'contact' %}">Zespół</a></li>
                 <li><a href="{% url 'supermarket' %}">Droga Harcerza</a></li>
-                <li><a href="{% url 'pomysly' %}">Pomysły</a></li>
+                <li><a href="{% url 'pomysly' %}">Narzędzia</a></li>
                 {% if user.is_authenticated %}
                   <li><a href="{% url 'zaproponuj' %}">Zaproponuj</a></li>
                   {% if request.user|has_group:"Edytor" %}

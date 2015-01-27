@@ -1,4 +1,67 @@
-{% extends "base/generic_list.html" %}
-{% block list_title %}
-        <h1>Pomysły</h1>
+{% extends "base/index.html" %}
+{% load group_tools %}
+{% block title %}Supermarket Metodyczny{% endblock %}
+{% block content %}
+<div class="page-header">
+    <h1>Lista Narzędzi</h1>
+</div>
+<div class="narzedzia_list">
+<table class="narzedzia_table">
+    <col width="10%">
+    <col width="20%">
+    <thead>
+    <tr  class="separator" >
+        <th>Narzędzie</th>
+        <th>Nazwa</th>
+    </tr>
+    </thead>
+    {% for narzedzie in narzedzia %}
+    <tr class="separator">
+        <th>{{narzedzie.nazwa}}</th>
+        <th></th>
+    </tr>
+        {% for obj in narzedzie.propozycja_set.all %}
+        <tr>
+            <td></td>
+            <td base_id="{{ obj.pk }}">{{ obj.nazwa }}{% if obj|class_name != 'Pomysl'%}({{obj|class_name}}){%endif%}</td>
+        </tr>
+        {% empty %}
+        <tr><td colspan="3">BRAK</td></tr>
+        {% endfor %}
+    {% endfor %}
+</table>
+</div>
+<div class="narzedzia_detal">
+</div>
+{% endblock %}
+{% block scripts %}
+    <script type="text/javascript">
+     function pomysl_click(event){
+        $.get( "raw/pomysl/"+ $(this).attr("base_id") +"/", function( data ) {
+            $( ".narzedzia_detal" ).html( data );
+        });
+       $(this).css("font-weight","Bold");
+       $('td').not(this).css("font-weight","Normal");
+     }
+     $('td').click(pomysl_click)
+    </script>
+    <style>
+    .narzedzia_detal p{
+        text-align: left;
+        font-size: x-large;
+    }
+
+    .narzedzia_detal ul li{
+        list-style-type: none;
+        margin-top: 5px;
+        font-size: 14px;
+    }
+
+    .narzedzia_detal ul{
+        margin: 0px;
+        padding: 0px;
+        -webkit-padding-start: 0px;
+    }
+
+    </style>
 {% endblock %}

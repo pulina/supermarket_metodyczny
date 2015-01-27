@@ -249,6 +249,11 @@ img.captcha{
 .checkboxThree input[type=checkbox] {
     visibility: hidden;
 }
+
+#narzedzie_desc{
+    font-size: smaller;
+}
+
 .checkboxThree {
     width: 80px;
     height: 25px;
@@ -304,6 +309,10 @@ img.captcha{
     background: #c5c078;
 }
 
+td:empty {
+  visibility: none;
+}
+
 .proposal caption{
     font-size: x-large;
     text-align: left;
@@ -318,4 +327,34 @@ img.captcha{
 }
 .proposal tfoot tr{
      border: 0px solid silver;
+}
+
+.narzedzia_detal,
+.narzedzia_list{
+    width: 50%;
+    margin-bottom: 20px;
+    padding: 5px;
+}
+
+.narzedzia_table{
+    margin: 10px;
+}
+
+.narzedzia_table th,
+.narzedzia_table td{
+    text-align: center;
+    vertical-align: top;
+    padding: 5px;
+}
+
+.separator{
+    border-bottom: solid gray 1px;
+}
+
+.narzedzia_detal{
+    float: right;
+}
+
+.narzedzia_list{
+    float: left;
 }

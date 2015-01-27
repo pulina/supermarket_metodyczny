@@ -235,8 +235,8 @@ def komentarz_raw(request, obj_pk=None, prop_pk=None):
                                   context_instance=RequestContext(request))
 
 
-def propozycja_raw(request, obj_pk, obj_class):
-    propozycja = get_object_or_404(obj_class, pk=obj_pk)
+def propozycja_raw(request, obj_pk):
+    propozycja = get_object_or_404(Propozycja, pk=obj_pk)
     data = {
         'propozycja': propozycja,
         'komentarze': propozycja.komentarz_set.all(),
@@ -255,6 +255,6 @@ def zarzadzaj(request):
 
 def pomysly(request):
     data = {
-        'object_list' : Pomysl.objects.filter(zaakceptowany=True)
+        'narzedzia' : Narzedzia.objects.filter(zaakceptowany=True)
     }
     return render_to_response('base/pomysly.html', data, context_instance=RequestContext(request))
