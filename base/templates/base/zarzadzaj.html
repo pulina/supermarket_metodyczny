@@ -19,9 +19,9 @@
             <th>Lp.</th>
             <th>Nazwa</th>
             <th>Imię i Nazwisko</th>
-            <th>Moderator</th>
+            <th>Konsultant</th>
             <th>Administrator</th>
-            <th>Usunąćh</th>
+            <th>Usunąć</th>
         </tr>
     </thead>
     <tbody>
@@ -32,18 +32,18 @@
             <td>{{user.first_name}} {{user.last_name}}</td>
             <td>
                 <div class="checkboxThree">
-                    <input type="checkbox" name="accept" value="{{user.pk}}" id="accept_moderator_{{user.pk}}" {% if user|has_group:"Konsultant" %}checked{%endif%}>
-                    <label for="accept_moderator_{{prop.pk}}"></label>
+                    <input type="checkbox" name="moderator" value="{{user.pk}}" id="accept_moderator_{{user.pk}}" {% if user|has_group:"Konsultant" %}checked{%endif%}>
+                    <label for="accept_moderator_{{user.pk}}"></label>
                 </div>
 
             </td>
             <td>
                 <div class="checkboxThree">
-                    <input type="checkbox" name="accept" value="{{user.pk}}" id="accept_administrator_{{user.pk}}" {% if user.is_superuser %}checked{%endif%}>
-                    <label for="accept_administrator_{{prop.pk}}"></label>
+                    <input type="checkbox" name="administrator" value="{{user.pk}}" id="accept_administrator_{{user.pk}}" {% if user.is_superuser %}checked{%endif%}>
+                    <label for="accept_administrator_{{user.pk}}"></label>
                 </div>
             </td>
-            <td>X</td>
+            <td class="remove" value="{{user.pk}}" >X</td>
         </tr>
     {% empty %}
         <tr>
@@ -52,4 +52,53 @@
     {% endfor %}
     </tbody>
 </table>
+{% endblock %}
+
+{% block scripts %}
+    <script type="text/javascript">
+    function toogle_moderator(){
+        var check = $(this)
+        $.ajax({
+          type: "POST",
+          url: '#',
+          data: { type : 'moderator', id : $(this).attr('value'), csrfmiddlewaretoken: '{{ csrf_token }}'},
+          error: function(){
+            check.prop("checked", !check.is(':checked'));
+            alert('Operacja niedozwolona!');
+          }
+        });
+    }
+
+    function toogle_administrator(){
+        var check = $(this)
+        $.ajax({
+          type: "POST",
+          url: '#',
+          data: { type :'administrator', id : $(this).attr('value'), csrfmiddlewaretoken: '{{ csrf_token }}'},
+          error: function(){
+            check.prop("checked", !check.is(':checked'));
+            alert('Operacja niedozwolona!');
+          }
+        });
+    }
+
+    function remove(){
+        var check = $(this)
+        $.ajax({
+          type: "POST",
+          url: '#',
+          data: { type : 'remove', id : $(this).attr('value'), csrfmiddlewaretoken: '{{ csrf_token }}'},
+          success: function(){
+            check.closest('tr').slideUp("slow");
+          },
+          error: function(){
+            alert('Operacja niedozwolona!');
+          }
+        });
+    }
+
+     $('.remove').click(remove);
+     $('input[name="moderator"]').change(toogle_moderator);
+     $('input[name="administrator"]').click(toogle_administrator);
+    </script>
 {% endblock %}

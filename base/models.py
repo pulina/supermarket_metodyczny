@@ -63,7 +63,7 @@ class Okres(Orderable):
 
 class Propozycja(PolymorphicModel):
     nazwa = models.CharField(max_length=200)
-    druzyna = models.CharField(max_length=200)
+    druzyna = models.CharField(max_length=200, blank=True, null=True)
     dodana_przez = models.ForeignKey(User)
     _autor = models.CharField(max_length=255, blank=True, null=True)
     opis = models.TextField()

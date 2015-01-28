@@ -26,6 +26,7 @@ class RejestracjaForm(forms.Form):
         password2 = self.cleaned_data['password2']
         if password != password2:
             raise forms.ValidationError(u'Hasła nie są takie same!')
+        return password2
 
 class PropozycjaForm(forms.Form):
     MODEL = (
@@ -44,11 +45,16 @@ class PropozycjaForm(forms.Form):
     narzedzie_nazwa = forms.CharField(label='Nazwa narzędzia', required=False)
     narzedzie_opis = forms.CharField(widget=Textarea, label='Opis narzędzia', required=False)
     nazwa = forms.CharField(label='Nazwa propozycji')
-    druzyna = forms.CharField(label='Nazwa dużyny')
-    moment_wystapienia = forms.CharField(label='Moment wystąpienia')
+    druzyna = forms.CharField(label='Nazwa dużyny', required=False)
+    moment_wystapienia = forms.CharField(label='Moment wystąpienia', required=False)
     opis = forms.CharField(widget=Textarea, label='Opis propozycji')
     autor_prompt = forms.BooleanField(label='Ty jesteś autorem propozycji', initial=True, required=False)
     _autor = forms.CharField(label='Autor propozycji', required=False)
+
+    def clean_druzyna(self):
+        if self.cleaned_data['model'] != u'Błąd' and not self.cleaned_data['druzyna']:
+            raise forms.ValidationError(u'Pole drużyna jest wymagane!')
+        return self.cleaned_data['druzyna']
 
 
 class KomentarzForm(forms.Form):

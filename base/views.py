@@ -1,5 +1,5 @@
 # -*- coding: UTF-8 -*-
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseBadRequest
 from django.contrib.auth.models import User
 from django.shortcuts import render_to_response, get_object_or_404
 from base.models import Pomysl, Okres, Blad, Tradycja, Rok, Narzedzia, Propozycja, Komentarz
@@ -250,6 +250,27 @@ def zarzadzaj(request):
     data = {
         'users': User.objects.all()
     }
+    if request.method == 'POST':
+        type = request.POST.get('type')
+        id = request.POST.get('id')
+        user = get_object_or_404(User,pk=id)
+        if user.pk == request.user.pk:
+            return HttpResponseBadRequest()
+        if type == 'moderator':
+            g = Group.objects.get(name='Edytor')
+            if user.groups.filter(name='Edytor').exists():
+                g.user_set.remove(user)
+            else:
+                g.user_set.add(user)
+        elif type == 'administrator':
+            if user.is_superuser:
+                user.is_superuser = False
+            else:
+                user.is_superuser = True
+            user.save()
+        elif type == 'remove':
+            user.delete()
+        return HttpResponse()
     return render_to_response('base/zarzadzaj.html', data, context_instance=RequestContext(request))
 
 

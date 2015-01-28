@@ -1,22 +1,30 @@
+{% load group_tools %}
 <p style="text-transform: uppercase;">{{ propozycja.nazwa}}</p>
 <ul>
+    {% if propozycja|class_name != 'Blad' %}
     <li>Drużyna: <b>{{ propozycja.druzyna}}</b></li>
+    {% endif %}
     <li>{{ propozycja.opis}}</li>
+    {% if propozycja|class_name != 'Blad' %}
     <li>Ocena: <b>{{ propozycja.rate}}</b></li>
     <li>Ocena konsultantów: <b>{{ propozycja.rate_prof }}</b></li>
+    {% endif %}
     {% if propozycja.moment_wystapienia %}
     <li>Moment wystąpienia: <b>{{ propozycja.moment_wystapienia }}</b></li>
     {% endif %}
     <li>Dodane przez: <b>{{ propozycja.dodana_przez.get_full_name }}</b></li>
 </ul>
 <br>
-<p>Komentarze:</p>
-<ul>
-{% for k in komentarze %}
-     {% include 'base/komentarz_raw.html' with komentarz=k %}
-{% endfor %}
-</ul>
-<br>
-{% if user.is_authenticated %}
-        {% include 'base/komentarz_form_raw.html' with form=komentarz_form  prop_pk=propozycja.pk %}
+{% if propozycja|class_name != 'Blad' %}
+    <p>Komentarze:</p>
+    <ul>
+    {% for k in komentarze %}
+         {% include 'base/komentarz_raw.html' with komentarz=k %}
+    {% endfor %}
+    </ul>
+    <br>
+    {% if user.is_authenticated %}
+            {% include 'base/komentarz_form_raw.html' with form=komentarz_form  prop_pk=propozycja.pk %}
+    {% endif %}
 {% endif %}
+

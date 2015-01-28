@@ -94,6 +94,14 @@
       }else{
         $('div#id_pomysl').slideDown( "slow");
       }
+      if($(this).find(":selected").val() === 'Błąd'){
+        $('div#id_moment_wystapienia').slideUp( "slow");
+        $('div#id_druzyna').slideUp( "slow");
+      }else{
+        $('div#id_moment_wystapienia').slideDown( "slow");
+        $('div#id_druzyna').slideDown( "slow");
+      }
+
     });
     $('select#id_model').change()
     $('select#id_narzedzie').change(function() {
