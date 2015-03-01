@@ -27,7 +27,7 @@ class Narzedzia(models.Model):
 
     @property
     def autor(self):
-        return self._autor or self.dodana_przez
+        return self._autor or self.dodana_przez.get_full_name
 
     @autor.setter
     def autor_setter(self, value):
@@ -76,7 +76,7 @@ class Propozycja(PolymorphicModel):
 
     @property
     def autor(self):
-        return self._autor or self.dodana_przez
+        return self._autor or self.dodana_przez.get_full_name
 
     @autor.setter
     def autor_setter(self, value):
