@@ -9,13 +9,6 @@ class MyAdmin(admin.ModelAdmin):
             "all": ("admin_styles.css",)
         }
 
-
-class NarzedziaAdmin(admin.ModelAdmin):
-    def save_model(self, request, obj, form, change):
-        obj.autor = request.user
-        obj.save()
-
-
 class okresAdmin(OrderableAdmin, MyAdmin):
     list_display = ('sort_order_display', '__str__')
     list_display_links = ('__str__',)
@@ -26,7 +19,7 @@ class okresAdmin(OrderableAdmin, MyAdmin):
 
 
 admin.site.register(Okres, okresAdmin)
-admin.site.register(Narzedzia, NarzedziaAdmin)
+admin.site.register(Narzedzia)
 admin.site.register(Blad)
 admin.site.register(Pomysl)
 admin.site.register(Komentarz)
