@@ -16,6 +16,7 @@ APPEND_SLASH = True
 
 
 
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
@@ -145,7 +146,6 @@ except ImportError:
     pass
 
 
-#TINYMCE_JS_URL = 'http://debug.example.org/tiny_mce/tiny_mce_src.js'
 TINYMCE_DEFAULT_CONFIG = {
     'plugins': "table,spellchecker,paste,searchreplace",
     'theme': "advanced",
@@ -153,5 +153,3 @@ TINYMCE_DEFAULT_CONFIG = {
     'custom_undo_redo_levels': 10,
 	'nowrap': True
 }
-#TINYMCE_SPELLCHECKER = True
-#TINYMCE_COMPRESSOR = True

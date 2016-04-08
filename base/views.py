@@ -10,7 +10,7 @@ from django.template import RequestContext
 from django.views.generic.list import ListView
 from base.forms import PropozycjaForm, KomentarzForm, RejestracjaForm, NarzedzieForm, PostForm
 from django import forms
-from recaptchawidget.fields import ReCaptchaField
+#from recaptchawidget.fields import ReCaptchaField
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.forms import ValidationError
 from django.db import transaction

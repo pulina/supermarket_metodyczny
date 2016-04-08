@@ -4,7 +4,6 @@ from base.models import Okres, Narzedzia, Pomysl, Blad, Tradycja, Propozycja, Po
 from django.forms.widgets import Textarea, HiddenInput
 from widgets import StarsRateWidget
 from tinymce.widgets import TinyMCE
-#from pygments.lexers.other import ModelicaLexer
 from captcha.fields import CaptchaField
 
 

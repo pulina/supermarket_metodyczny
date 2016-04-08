@@ -4,7 +4,6 @@ from tinymce.models import HTMLField
 from django.contrib.auth.models import User, Group
 from django.core.urlresolvers import reverse
 from orderable.models import Orderable
-from polymorphic.models import PolymorphicModel
 from django.db.models import Avg
 from django.utils import timezone
 
@@ -77,7 +76,7 @@ class Okres(Orderable):
         return u'{} {}'.format(self.nazwa, self.rok)
 
 
-class Propozycja(PolymorphicModel):
+class Propozycja(models.Model):
     nazwa = models.CharField(max_length=200)
     druzyna = models.CharField(max_length=200, blank=True, null=True)
     dodana_przez = models.ForeignKey(User)

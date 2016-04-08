@@ -12,7 +12,6 @@ setup(
         'django>=1.6,<1.7',
         'south',
         'pyyaml',
-        'django-polymorphic',
         'django-admin-tools',
         'django-orderable',
         'django-js-reverse',
