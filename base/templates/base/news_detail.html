@@ -1,0 +1,12 @@
+{% extends "base/index.html" %}
+{% block title %}Supermarket Metodyczny{% endblock %}
+{% load staticfiles %}
+{% block content %}
+     <div>
+		<h2>{{ post.Tytul }} {% if request.user.is_superuser %}<a class="btn btn-default" href="{% url 'post_edit' pk=post.pk %}"><span class="glyphicon glyphicon-edit"></span></a>{% endif %}</a></h2>
+        <h6>{{ post.data_stworzenia }}</h6>
+		
+		 
+		 <h4><p>{{ post.Tekst }}</p></h4>
+    </div>
+{% endblock %}

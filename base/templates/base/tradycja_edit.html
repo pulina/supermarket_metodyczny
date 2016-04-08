@@ -1,0 +1,10 @@
+{% extends "base/index.html" %}
+{% block title %}Supermarket Metodyczny{% endblock %}
+{% load staticfiles %}
+{% block content %}
+    <h1>Edytuj narzędzie:</h1>
+    <form method="POST" class="post-form">{% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="save btn btn-default">Zapisz</button>
+    </form>
+{% endblock %}

@@ -1,14 +1,14 @@
 # -*- coding: UTF-8 -*-
-from django.http import HttpResponse, HttpResponseBadRequest
-from django.contrib.auth.models import User
-from django.shortcuts import render_to_response, get_object_or_404
+from django.http import HttpResponse, HttpResponseBadRequest, HttpResponseRedirect
+from django.contrib.auth.models import User, Group
+from django.shortcuts import render_to_response, get_object_or_404, render, redirect 
+from django.utils import timezone
+from .models import Post
 from base.models import Pomysl, Okres, Blad, Tradycja, Rok, Narzedzia, Propozycja, Komentarz
 from django.contrib.auth import authenticate, login, logout
 from django.template import RequestContext
 from django.views.generic.list import ListView
-from django.http import HttpResponseRedirect
-from django.contrib.auth.models import Group
-from base.forms import PropozycjaForm, KomentarzForm, RejestracjaForm
+from base.forms import PropozycjaForm, KomentarzForm, RejestracjaForm, NarzedzieForm, PostForm
 from django import forms
 from recaptchawidget.fields import ReCaptchaField
 from django.contrib.auth.decorators import login_required, user_passes_test
@@ -16,9 +16,43 @@ from django.forms import ValidationError
 from django.db import transaction
 from datetime import datetime
 
+def post_list(request):
+	posts=Post.objects.filter(data_stworzenia__lte=timezone.now()).order_by('-pk')
+	return render_to_response('base/news.html',{'posts':posts}, context_instance=RequestContext(request))
+	
+@user_passes_test(lambda u: u.is_superuser)
+def post_new(request): 
+    if request.method == "POST":
+        form = PostForm(request.POST)
+        if form.is_valid():
+            post = form.save(commit=False)
+            post.Autor = request.user
+            post.save()
+            return render(request, 'base/news_edit.html', {'form': form})
+    else:
+        form = PostForm()
+    return render_to_response('base/news_edit.html', {'form': form})
 
+def post_detail(request, pk):
+    post = get_object_or_404(Post, pk=pk)
+    return render(request, 'base/news_detail.html', {'post': post})
+	
+@user_passes_test(lambda u: u.is_superuser)
+def post_edit(request, pk):
+    post = get_object_or_404(Post, pk=pk)
+    if request.method == "POST":
+        form = PostForm(request.POST, instance=post)
+        if form.is_valid():
+            post = form.save(commit=False)
+            post.autor = request.user
+            post.save()
+            return redirect('post_edit', pk=post.pk)
+    else:
+        form = PostForm(instance=post)
+    return render(request, 'base/news_edit.html', {'form': form})
+   
 def is_moderator(user):
-    moderator_group, created = Group.objects.get_or_create(name='Edytor')
+    moderator_group, created = Group.objects.get_or_create(name='Edytor')   # TODO
     return moderator_group in user.groups.all()
 
 
@@ -68,7 +102,7 @@ def zaproponuj(request):
             with transaction.atomic():
                 try:
                     success = True
-                    print form.cleaned_data
+                    print ('form.cleaned_data')
                     narzedzie = form.cleaned_data['narzedzie']
                     if not narzedzie or narzedzie == '':
                         narzedzie_opis = form.cleaned_data['narzedzie_opis']
@@ -108,6 +142,19 @@ def zaproponuj(request):
         form = PropozycjaForm()
     data['form'] = form
     return render_to_response('base/zaproponuj.html', data, context_instance=RequestContext(request))
+   
+      
+def tradycja_edit(request, pk):
+	tradycja = get_object_or_404(Tradycja, pk=pk)
+	if request.method == "POST":
+	    form = PropozycjaForm(request.POST, instance=zaproponuj)
+	    if form.is_valid():
+	        tradycja = form.save(commit=False)
+	        tradycja.save()
+            return redirect('tradycja_edit', pk=tradycja.pk)
+	else:
+	    form = PropozycjaForm(instance=zaproponuj)
+	return render(request, 'base/narzedzia_edit.html', {'form': form})
 
 
 @login_required
@@ -279,3 +326,17 @@ def pomysly(request):
         'narzedzia' : Narzedzia.objects.filter(zaakceptowany=True)
     }
     return render_to_response('base/pomysly.html', data, context_instance=RequestContext(request))
+
+
+
+
+
+#class ZaproponujCreateView(CreateView):
+	
+	#pass
+
+
+
+
+
+

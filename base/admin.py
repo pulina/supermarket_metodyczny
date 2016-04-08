@@ -1,5 +1,5 @@
 from django.contrib import admin
-from base.models import Blad, Pomysl, Komentarz, Tradycja, Narzedzia, Okres, Rok
+from base.models import Blad, Pomysl, Komentarz, Tradycja, Narzedzia, Okres, Rok, Post
 from orderable.admin import OrderableAdmin
 
 
@@ -25,3 +25,4 @@ admin.site.register(Pomysl)
 admin.site.register(Komentarz)
 admin.site.register(Tradycja)
 admin.site.register(Rok)
+admin.site.register(Post)

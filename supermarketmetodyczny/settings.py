@@ -14,16 +14,19 @@ MANAGERS = ADMINS
 
 APPEND_SLASH = True
 
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'market',
+        'NAME': '',
         'USER': '',
         'PASSWORD': '',
         'HOST': '',
         'PORT': '',
     }
 }
+
+
 
 TIME_ZONE = 'Europe/Warsaw'
 LANGUAGE_CODE = 'pl'
@@ -71,7 +74,7 @@ TEMPLATE_LOADERS = (
 MIDDLEWARE_CLASSES = (
     'django.middleware.common.CommonMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
+    #'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
 )
@@ -95,6 +98,7 @@ INSTALLED_APPS = (
     'polymorphic',
     'django.contrib.contenttypes',
     'captcha',
+    'tinymce',
 )
 LOGGING = {
     'version': 1,
@@ -139,3 +143,14 @@ try:
 except ImportError:
     pass
 
+
+#TINYMCE_JS_URL = 'http://debug.example.org/tiny_mce/tiny_mce_src.js'
+TINYMCE_DEFAULT_CONFIG = {
+    'plugins': "table,spellchecker,paste,searchreplace",
+    'theme': "advanced",
+    'cleanup_on_startup': True,
+    'custom_undo_redo_levels': 10,
+	'nowrap': True
+}
+#TINYMCE_SPELLCHECKER = True
+#TINYMCE_COMPRESSOR = True

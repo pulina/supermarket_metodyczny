@@ -1,15 +1,31 @@
 # -*- coding: UTF-8 -*-
 from django.db import models
+from tinymce.models import HTMLField
 from django.contrib.auth.models import User, Group
 from django.core.urlresolvers import reverse
 from orderable.models import Orderable
-from polymorphic.polymorphic_model import PolymorphicModel
+from polymorphic.models import PolymorphicModel
 from django.db.models import Avg
+from django.utils import timezone
 
+
+class Post(models.Model):
+	Autor=models.ForeignKey(User)
+	Tytul=models.CharField(max_length=200)
+	Tekst=HTMLField()
+	data_stworzenia=models.DateTimeField(default=timezone.now)
+	
+	def publish(self):
+		self.published_date=timezone.now()
+		self.save()
+		
+	def __str__(self):
+		return self.Tytul
+		
 
 class Narzedzia(models.Model):
     nazwa = models.CharField(max_length=200)
-    opis = models.TextField()
+    opis = HTMLField()
     dodana_przez = models.ForeignKey(User)
     _autor = models.CharField(max_length=255, blank=True, null=True)
     zaakceptowany = models.BooleanField(default=False)

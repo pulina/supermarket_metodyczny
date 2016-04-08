@@ -2,40 +2,50 @@
 {% load group_tools %}
 {% block title %}Supermarket Metodyczny{% endblock %}
 {% block content %}
+
+
 <div class="page-header">
-    <h1>Lista Narzędzi</h1>
+    <h1>Lista Narzędzi </h1>
 </div>
 <div class="narzedzia_list">
 <table class="narzedzia_table">
     <col width="10%">
     <col width="20%">
     <thead>
+		
     <tr  class="separator" >
         <th>Narzędzie</th>
         <th>Nazwa</th>
     </tr>
     </thead>
-    {% for narzedzie in narzedzia %}
+    {% for narz in narzedzia %}
     <tr class="separator">
-        <th>{{narzedzie.nazwa}}</th>
+        <th><div class='element'>{{narz.nazwa}}<!--<span class="glyphicon glyphicon-chevron-down"></span>--></div></th>
         <th></th>
     </tr>
-        {% for obj in narzedzie.propozycja_set.all %}
-        <tr>
-            <td></td>
-            <td base_id="{{ obj.pk }}">{{ obj.nazwa }}{% if obj|class_name != 'Pomysl'%}({{obj|class_name}}){%endif%}</td>
-        </tr>
-        {% empty %}
-        <tr><td colspan="3">BRAK</td></tr>
-        {% endfor %}
-    {% endfor %}
+		<div class="zwin">
+			{% for obj in narz.propozycja_set.all %}
+				<tr>
+					<td></td>
+					<td base_id="{{ obj.pk }}">{{ obj.nazwa }} {% if obj|class_name != 'Pomysl'%} ({{obj|class_name}}) {%endif%} <!--przebudowac forms{% if request.user.is_superuser or narzedzie.dodana_przez == user.username %}<a class="btn btn-default" href="{% url 'narzedzia_edit' pk=obj.pk %}"><span class="glyphicon glyphicon-edit"></span></a>{% endif %}</a>--></td>
+				</tr>
+				{% empty %}
+					<tr><td colspan="3">BRAK</td></tr>
+			{% endfor %}
+		</div>
+	{% endfor %}
+	
 </table>
 </div>
 <div class="narzedzia_detal">
 </div>
 {% endblock %}
 {% block scripts %}
+
     <script type="text/javascript">
+		
+		
+		
      function pomysl_click(event){
         $.get( "raw/pomysl/"+ $(this).attr("base_id") +"/", function( data ) {
             $( ".narzedzia_detal" ).html( data );
@@ -44,6 +54,7 @@
        $('td').not(this).css("font-weight","Normal");
      }
      $('td').click(pomysl_click)
+		
     </script>
     <style>
     .narzedzia_detal p{

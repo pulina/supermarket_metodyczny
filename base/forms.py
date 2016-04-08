@@ -1,15 +1,17 @@
 # -*- coding: UTF-8 -*-
 from django import forms
-from base.models import Okres, Narzedzia, Pomysl, Blad, Tradycja, Propozycja
+from base.models import Okres, Narzedzia, Pomysl, Blad, Tradycja, Propozycja, Post
 from django.forms.widgets import Textarea, HiddenInput
 from widgets import StarsRateWidget
+from tinymce.widgets import TinyMCE
+#from pygments.lexers.other import ModelicaLexer
 from captcha.fields import CaptchaField
 
 
-class NarzedzieForm(forms.Form):
-    narzedzie = forms.ModelChoiceField(queryset=Okres.objects.all(), empty_label=None)
-    nazwa = forms.CharField()
-    opis = forms.CharField(widget=Textarea)
+class NarzedzieForm(forms.ModelForm):
+    class Meta:
+        model = Narzedzia
+        fields = ['nazwa', 'opis', '_autor' ]
 
 class RejestracjaForm(forms.Form):
     username = forms.CharField(label=u'Login')
@@ -33,7 +35,7 @@ class PropozycjaForm(forms.Form):
         ('', ''),
         ('Pomysł', 'Pomysł nowego narzędzia'),
         ('Tradycja', 'Tradycję związaną z istniejącym narzędziem'),
-        ('Błąd', 'Błąd związany z istniejącym narzędziem'),
+        ('Błąd', 'Błąd związany z istniejącym narzędziem'),#
 
 
     )
@@ -43,7 +45,8 @@ class PropozycjaForm(forms.Form):
     narzedzie_okres = forms.ModelChoiceField(queryset=Okres.objects.all(), empty_label=None,
                                              label='Okres którego dotyczy narzędzie', required=False)
     narzedzie_nazwa = forms.CharField(label='Nazwa narzędzia', required=False)
-    narzedzie_opis = forms.CharField(widget=Textarea, label='Opis narzędzia', required=False)
+    #w narzedziu zmienić z Textarea na TinyMCE
+    narzedzie_opis = forms.CharField(widget=TinyMCE, label='Opis narzędzia', required=False)
     nazwa = forms.CharField(label='Nazwa propozycji')
     druzyna = forms.CharField(label='Nazwa dużyny', required=False)
     moment_wystapienia = forms.CharField(label='Moment wystąpienia', required=False)
@@ -60,7 +63,7 @@ class PropozycjaForm(forms.Form):
 class KomentarzForm(forms.Form):
     RATING_CHOICES = ((1, 1), (2, 2), (3, 3), (4, 4), (5, 5),)
     propozycja = forms.ModelChoiceField(queryset=Propozycja.objects.all(), empty_label=None, widget=HiddenInput)
-    zawartosc = forms.CharField(widget=Textarea, label=u'Zawartość')
+    zawartosc = forms.CharField(widget=TinyMCE, label=u'Zawartość')
     ocena = forms.IntegerField(widget=StarsRateWidget())
 
     def clean_ocena(self):
@@ -82,3 +85,47 @@ class KomentarzForm(forms.Form):
         except KeyError:
             super(KomentarzForm, self).__init__(*args, **kwargs)
 
+
+class PostForm(forms.ModelForm):
+
+    class Meta:
+        model = Post
+        fields = ('Tytul', 'Tekst',) 
+        widgets = {
+            'Tekst': TinyMCE(attrs={'cols': 50, 'rows': 10}),
+        }
+        
+        
+#class PropozycjaForm(forms.ModelForm):
+#    
+#    class Meta:
+#        MODEL = (
+#            ('', ''),
+#            ('Pomysł', 'Pomysł nowego narzędzia'),
+#            ('Tradycja', 'Tradycję związaną z istniejącym narzędziem'),
+#            ('Błąd', 'Błąd związany z istniejącym narzędziem'),
+#        )
+#        
+#        model = None
+#        fields = None
+#        
+#        def __init__(self):
+#            MODEL = self.MODEL
+#            if(self.MODEL == 'Pomysł'):
+#                self.model = MODEL
+#                self.fields = ('narzedzie_okres', 'narzedzie_nazwa', 'narzedzie_opis',)
+#                
+#            if(self.MODEL == 'Tradycja'):
+#                self.model = MODEL
+#                self.fields = ('nazwa', 'druzyna', 'moment_wystapienia', 'opis', 'autor_prompt', '__autor',)
+#                
+#            if(self.MODEL == 'Błąd'):
+#                self.model = MODEL
+#                self.fields = ('narzedzie_okres', 'narzedzie_nazwa', 'narzedzie_opis',)
+#                
+#        def clean_druzyna(self):
+#            if self.cleaned_data['model'] != u'Błąd' and not self.cleaned_data['druzyna']:
+#                raise forms.ValidationError(u'Pole drużyna jest wymagane!')
+#            return self.cleaned_data['druzyna']
+        
+        
