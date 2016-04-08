@@ -144,17 +144,17 @@ def zaproponuj(request):
     return render_to_response('base/zaproponuj.html', data, context_instance=RequestContext(request))
    
       
-def tradycja_edit(request, pk):
-	tradycja = get_object_or_404(Tradycja, pk=pk)
-	if request.method == "POST":
-	    form = PropozycjaForm(request.POST, instance=zaproponuj)
-	    if form.is_valid():
-	        tradycja = form.save(commit=False)
-	        tradycja.save()
-            return redirect('tradycja_edit', pk=tradycja.pk)
-	else:
-	    form = PropozycjaForm(instance=zaproponuj)
-	return render(request, 'base/narzedzia_edit.html', {'form': form})
+#def tradycja_edit(request, pk):
+#	tradycja = get_object_or_404(Tradycja, pk=pk)
+#	if request.method == "POST":
+#	    form = PropozycjaForm(request.POST, instance=zaproponuj)
+#	    if form.is_valid():
+#	        tradycja = form.save(commit=False)
+#	        tradycja.save()
+#            return redirect('tradycja_edit', pk=tradycja.pk)
+#	else:
+#	    form = PropozycjaForm(instance=zaproponuj)
+#	return render(request, 'base/narzedzia_edit.html', {'form': form})
 
 
 @login_required

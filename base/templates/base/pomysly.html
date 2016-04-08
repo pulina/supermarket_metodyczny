@@ -27,7 +27,7 @@
 			{% for obj in narz.propozycja_set.all %}
 				<tr>
 					<td></td>
-					<td base_id="{{ obj.pk }}">{{ obj.nazwa }} {% if obj|class_name != 'Pomysl'%} ({{obj|class_name}}) {%endif%} <!--przebudowac forms{% if request.user.is_superuser or narzedzie.dodana_przez == user.username %}<a class="btn btn-default" href="{% url 'narzedzia_edit' pk=obj.pk %}"><span class="glyphicon glyphicon-edit"></span></a>{% endif %}</a>--></td>
+					<td base_id="{{ obj.pk }}">{{ obj.nazwa }} {% if obj|class_name != 'Pomysl'%} ({{obj|class_name}}) {%endif%} </td>
 				</tr>
 				{% empty %}
 					<tr><td colspan="3">BRAK</td></tr>
