@@ -16,7 +16,7 @@
 			<div class="post">
 				<h2><a href="{% url 'news_detail' pk=post.pk %}">{{ post.Tytul }} {% if request.user.is_superuser %}<a class="btn btn-default" href="{% url 'post_edit' pk=post.pk %}"><span class="glyphicon glyphicon-edit"></span></a>{% endif %}</a></h3>
 				<h6>{{ post.data_stworzenia }}</h6>
-				<p><h4>{{ post.Tekst|linebreaks }}</h4></p>
+				<p><h4>{{ post.Tekst|safe|linebreaks }}</h4></p>
 				
 			</div>
 		{% endfor %}

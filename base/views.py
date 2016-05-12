@@ -15,6 +15,7 @@ from django.contrib.auth.decorators import login_required, user_passes_test
 from django.forms import ValidationError
 from django.db import transaction
 from datetime import datetime
+from django.db.models.query import QuerySet
 
 def post_list(request):
 	posts=Post.objects.filter(data_stworzenia__lte=timezone.now()).order_by('-pk')
@@ -56,8 +57,8 @@ def is_moderator(user):
     return moderator_group in user.groups.all()
 
 
-class ReCaptchaForm(forms.Form):
-    recaptcha = ReCaptchaField()
+#class ReCaptchaForm(forms.Form):
+#    recaptcha = ReCaptchaField()
 
 
 class Generic(ListView):

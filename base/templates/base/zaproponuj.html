@@ -24,7 +24,8 @@
             position: relative;
             top: 10px;
         }
-
+		
+		
         .propozycja_form select,
         .propozycja_form input{
             height: 24px;
@@ -68,7 +69,7 @@
                              <div id="autor_field">
                     {% endif %}
                     {{ field.errors }}
-                    <div id="{{ field.id_for_label }}"><label for="{{ field.id_for_label }}"> {{ field.label }}:</label>{{ field }}</div>
+                    <div id="label_{{ field.id_for_label }}"><label for="{{ field.id_for_label }}"> {{ field.label }}:</label>{{ field }}</div>
                     {% if field.id_for_label == 'id_narzedzie_opis'%}
                         </fieldset>
                     {% endif %}
@@ -120,5 +121,10 @@
       }
     });
     $('input#id_autor_prompt').change()
+	
+	tinymce.init({
+    selector: '#id_opis'
+  });
+
 </script>
 {% endblock %}

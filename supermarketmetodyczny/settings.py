@@ -14,19 +14,28 @@ MANAGERS = ADMINS
 
 APPEND_SLASH = True
 
-
-
-
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': '',
-        'USER': '',
-        'PASSWORD': '',
-        'HOST': '',
-        'PORT': '',
+        'NAME': 'market',
+        'USER': 'adrian',
+        'PASSWORD': 'adrian',
+        'HOST': '127.0.0.1',
+        #'PORT': '',
     }
 }
+
+
+#DATABASES = {
+#    'default': {
+#        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+#        'NAME': '',
+#        'USER': '',
+#        'PASSWORD': '',
+#        'HOST': '',
+#        'PORT': '',
+#    }
+#}
 
 
 
@@ -96,11 +105,11 @@ INSTALLED_APPS = (
     'south',
     'orderable',
     'django_js_reverse',
-    'base',
     'polymorphic',
     'django.contrib.contenttypes',
     'captcha',
     'tinymce',
+    'base',
 )
 LOGGING = {
     'version': 1,
@@ -153,3 +162,5 @@ TINYMCE_DEFAULT_CONFIG = {
     'custom_undo_redo_levels': 10,
 	'nowrap': True
 }
+
+

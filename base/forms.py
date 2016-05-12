@@ -4,7 +4,8 @@ from base.models import Okres, Narzedzia, Pomysl, Blad, Tradycja, Propozycja, Po
 from django.forms.widgets import Textarea, HiddenInput
 from widgets import StarsRateWidget
 from tinymce.widgets import TinyMCE
-from captcha.fields import CaptchaField
+#from pygments.lexers.other import ModelicaLexer
+#from captcha.fields import CaptchaField
 
 
 class NarzedzieForm(forms.ModelForm):
@@ -19,7 +20,7 @@ class RejestracjaForm(forms.Form):
     mail = forms.EmailField(label=u'E-mail')
     password = forms.CharField(widget=forms.PasswordInput(), label=u'Hasło')
     password2 = forms.CharField(widget=forms.PasswordInput(), label=u'Powtórz hasło')
-    captcha = CaptchaField()
+#    captcha = CaptchaField()
 
     def clean_password2(self):
         print self.cleaned_data

@@ -5,6 +5,8 @@ from django.contrib.auth.models import User, Group
 from django.core.urlresolvers import reverse
 from orderable.models import Orderable
 from django.db.models import Avg
+from polymorphic.models import PolymorphicModel
+#from polymorphic.polymorphic_model import PolymorphicModel
 from django.utils import timezone
 
 
@@ -24,7 +26,7 @@ class Post(models.Model):
 
 class Narzedzia(models.Model):
     nazwa = models.CharField(max_length=200)
-    opis = HTMLField()
+    opis = models.TextField()
     dodana_przez = models.ForeignKey(User)
     _autor = models.CharField(max_length=255, blank=True, null=True)
     zaakceptowany = models.BooleanField(default=False)
@@ -76,7 +78,7 @@ class Okres(Orderable):
         return u'{} {}'.format(self.nazwa, self.rok)
 
 
-class Propozycja(models.Model):
+class Propozycja(PolymorphicModel):
     nazwa = models.CharField(max_length=200)
     druzyna = models.CharField(max_length=200, blank=True, null=True)
     dodana_przez = models.ForeignKey(User)

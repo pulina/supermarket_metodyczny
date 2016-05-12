@@ -1,5 +1,6 @@
 {% extends "base/index.html" %}
 {% load group_tools %}
+{% load pomysly_tags %}
 {% block title %}Supermarket Metodyczny{% endblock %}
 {% block content %}
 
@@ -24,10 +25,11 @@
         <th></th>
     </tr>
 		<div class="zwin">
-			{% for obj in narz.propozycja_set.all %}
+			{% get_propozycje obj as prop %}
+			{% for i in prop %}
 				<tr>
 					<td></td>
-					<td base_id="{{ obj.pk }}">{{ obj.nazwa }} {% if obj|class_name != 'Pomysl'%} ({{obj|class_name}}) {%endif%} </td>
+					<td base_id="{{ i.pk }}">{{ i.nazwa }} {% if i|class_name != 'Pomysl'%} ({{i|class_name}}) {%endif%} </td>
 				</tr>
 				{% empty %}
 					<tr><td colspan="3">BRAK</td></tr>
@@ -61,18 +63,15 @@
         text-align: left;
         font-size: x-large;
     }
-
     .narzedzia_detal ul li{
         list-style-type: none;
         margin-top: 5px;
         font-size: 14px;
     }
-
     .narzedzia_detal ul{
         margin: 0px;
         padding: 0px;
         -webkit-padding-start: 0px;
     }
-
     </style>
 {% endblock %}
